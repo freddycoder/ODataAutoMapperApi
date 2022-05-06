@@ -1,0 +1,207 @@
+{
+	"info": {
+		"_postman_id": "163579da-c292-49db-b534-e0c52e2576fa",
+		"name": "AutoMapperODataApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get weather",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Array with size 50\", () => {\r",
+							"    var json = pm.response.json();\r",
+							"\r",
+							"    pm.expect(json.length).to.eq(50);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/WeatherForecast",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"WeatherForecast"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get weather top 10",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Array with size 50\", () => {\r",
+							"    var json = pm.response.json();\r",
+							"\r",
+							"    pm.expect(json.length).to.eq(10);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/WeatherForecast?$top=10",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"WeatherForecast"
+					],
+					"query": [
+						{
+							"key": "$top",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get weather select id each 365 days",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Array with size 400\", () => {\r",
+							"    var json = pm.response.json();\r",
+							"\r",
+							"    pm.expect(json.length).to.eq(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/WeatherForecast?$takeOneElementEach=365&$select=id",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"WeatherForecast"
+					],
+					"query": [
+						{
+							"key": "$takeOneElementEach",
+							"value": "365"
+						},
+						{
+							"key": "$select",
+							"value": "id"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get weather year 10",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Array with size 365\", () => {\r",
+							"    var json = pm.response.json();\r",
+							"\r",
+							"    pm.expect(json.length).to.eq(365);\r",
+							"    pm.expect(json[0].id).to.eq(3286);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/WeatherForecast?$filter=id ge 3286&$top=365",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"WeatherForecast"
+					],
+					"query": [
+						{
+							"key": "$filter",
+							"value": "id ge 3286"
+						},
+						{
+							"key": "$top",
+							"value": "365"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:5049",
+			"type": "string"
+		}
+	]
+}
