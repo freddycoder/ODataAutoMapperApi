@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ODataAutomapperApi.Attributes;
 using ODataAutomapperApi.Datas;
@@ -32,5 +33,20 @@ public class WeatherForecastController : ControllerBase
         }
 
         return query.Take(_defaultLimit);
+    }
+
+    [HttpPost(Name = "PostWeatherForecast")]
+    [ProducesResponseType(201, Type = typeof(WeatherForecast))]
+    public async Task<IActionResult> Post([FromBody] WeatherForecast weatherForecast, CancellationToken token)
+    {
+        var mapper = HttpContext.RequestServices.GetRequiredService<IMapper>();
+
+        var forecast = mapper.Map<WeatherForecastDbModel>(weatherForecast);
+
+        await _context.AddAsync(forecast, token);
+
+        await _context.SaveChangesAsync(token);
+
+        return Created("/WeaterForecast/" + forecast.Id, mapper.Map<WeatherForecast>(forecast));
     }
 }

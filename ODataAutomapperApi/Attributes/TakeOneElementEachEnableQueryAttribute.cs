@@ -19,6 +19,11 @@ public class TakeOneElementEachEnableQueryAttribute : EnableQueryAttribute
         base.OnActionExecuting(actionExecutingContext);
     }
 
+    public override Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
+    {
+        return base.OnResultExecutionAsync(context, next);
+    }
+
     public override IQueryable ApplyQuery(IQueryable queryable, ODataQueryOptions queryOptions)
     {
         var query = base.ApplyQuery(queryable, queryOptions);

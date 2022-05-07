@@ -21,38 +21,59 @@ builder.Services.AddAutoMapper(config =>
 
 builder.Services.AddDbContext<WeatherForcastContext>(options =>
 {
-    options.UseInMemoryDatabase(nameof(WeatherForcastContext));
+    if (builder.Configuration["ConnectionStrings:SQLServer"] != null)
+    {
+        options.UseSqlServer(builder.Configuration["ConnectionStrings:SQLServer"], sqlOptions =>
+        {
+            sqlOptions.EnableRetryOnFailure();
+        });
+    }
+    else
+    {
+        options.UseInMemoryDatabase(nameof(WeatherForcastContext));
+    }
 });
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
+if (builder.Configuration["ConnectionStrings:SQLServer"] == null)
 {
-    var context = scope.ServiceProvider.GetRequiredService<WeatherForcastContext>();
-
-    var random = new Random();
-    string[] summaries = new[]
+    using (var scope = app.Services.CreateScope())
     {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+        var context = scope.ServiceProvider.GetRequiredService<WeatherForcastContext>();
 
-    for (int i = -(365 * 400); i < 0; i++)
-    {
-        var summary = summaries[random.Next(summaries.Length)];
-
-        context.Add<WeatherForecastDbModel>(new WeatherForecastDbModel
+        var random = new Random();
+        string[] summaries = new[]
         {
-            Date = DateTime.Now + TimeSpan.FromDays(i),
-            Summary = summary,
-            SummaryNormalized = summary.ToUpper().Trim(),
-            TemperatureC = random.Next(-30, 30)
-        });
-    }
+            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+        };
 
-    context.SaveChanges();
+        for (int i = -(365 * 400); i < 0; i++)
+        {
+            var summary = summaries[random.Next(summaries.Length)];
+
+            context.Add<WeatherForecastDbModel>(new WeatherForecastDbModel
+            {
+                Date = DateTime.Now + TimeSpan.FromDays(i),
+                Summary = summary,
+                SummaryNormalized = summary.ToUpper().Trim(),
+                TemperatureC = random.Next(-30, 30)
+            });
+        }
+
+        context.SaveChanges();
+    }
+}
+else
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var context = scope.ServiceProvider.GetRequiredService<WeatherForcastContext>();
+
+        context.Database.Migrate();
+    }
 }
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
