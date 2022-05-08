@@ -6,131 +6,317 @@
 	},
 	"item": [
 		{
-			"name": "Get weather",
-			"event": [
+			"name": "Basic in memory database test",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Array with size 50\", () => {\r",
-							"    var json = pm.response.json();\r",
-							"\r",
-							"    pm.expect(json.length).to.eq(50);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{url}}/WeatherForecast",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"WeatherForecast"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get weather top 10",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Array with size 50\", () => {\r",
-							"    var json = pm.response.json();\r",
-							"\r",
-							"    pm.expect(json.length).to.eq(10);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{url}}/WeatherForecast?$top=10",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"WeatherForecast"
-					],
-					"query": [
+					"name": "Get weather",
+					"event": [
 						{
-							"key": "$top",
-							"value": "10"
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Array with size 50\", () => {\r",
+									"    var json = pm.response.json();\r",
+									"\r",
+									"    pm.expect(json.length).to.eq(50);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
 						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get weather select id each 365 days",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Array with size 400\", () => {\r",
-							"    var json = pm.response.json();\r",
-							"\r",
-							"    pm.expect(json.length).to.eq(400);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{url}}/WeatherForecast?$takeOneElementEach=365&$select=id",
-					"host": [
-						"{{url}}"
 					],
-					"path": [
-						"WeatherForecast"
-					],
-					"query": [
-						{
-							"key": "$takeOneElementEach",
-							"value": "365"
-						},
-						{
-							"key": "$select",
-							"value": "id"
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/WeatherForecast",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"WeatherForecast"
+							]
 						}
-					]
+					},
+					"response": []
+				},
+				{
+					"name": "Get weather top 10",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Array with size 50\", () => {\r",
+									"    var json = pm.response.json();\r",
+									"\r",
+									"    pm.expect(json.length).to.eq(10);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/WeatherForecast?$top=10",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"WeatherForecast"
+							],
+							"query": [
+								{
+									"key": "$top",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get weather select id each 365 days with order by",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Array with size 400\", () => {\r",
+									"    var json = pm.response.json();\r",
+									"\r",
+									"    pm.expect(json.length).to.eq(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/WeatherForecast?$takeOneElementEach=365&$select=id&orderby=date",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"WeatherForecast"
+							],
+							"query": [
+								{
+									"key": "$takeOneElementEach",
+									"value": "365"
+								},
+								{
+									"key": "$select",
+									"value": "id"
+								},
+								{
+									"key": "orderby",
+									"value": "date"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get weather year 10",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Array with size 365\", () => {\r",
+									"    var json = pm.response.json();\r",
+									"\r",
+									"    pm.expect(json.length).to.eq(365);\r",
+									"    pm.expect(json[0].id).to.eq(3286);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/WeatherForecast?$filter=id ge 3286&$top=365",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"WeatherForecast"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "id ge 3286"
+								},
+								{
+									"key": "$top",
+									"value": "365"
+								}
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Get weather year 10",
+			"name": "Key based pagination",
+			"item": [
+				{
+					"name": "Get weather select id each 365 days",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Array with size 3\", () => {\r",
+									"    var json = pm.response.json();\r",
+									"\r",
+									"    pm.expect(json.length).to.eq(3);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/WeatherForecast?$orderby=date&$takeOneElementEach=50&$select=id&summary=Warm&start=1000-01-01 00:00:00&end=1002-01-01 00:00:00",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"WeatherForecast"
+							],
+							"query": [
+								{
+									"key": "$orderby",
+									"value": "date"
+								},
+								{
+									"key": "$takeOneElementEach",
+									"value": "50"
+								},
+								{
+									"key": "$select",
+									"value": "id"
+								},
+								{
+									"key": "summary",
+									"value": "Warm"
+								},
+								{
+									"key": "start",
+									"value": "1000-01-01 00:00:00"
+								},
+								{
+									"key": "end",
+									"value": "1002-01-01 00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Offset based pagination",
+			"item": [
+				{
+					"name": "Get weather select id each 365 days Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Array with size 50\", () => {\r",
+									"    var json = pm.response.json();\r",
+									"\r",
+									"    pm.expect(json.length).to.eq(50);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/WeatherForecast?$orderby=date&summary=Warm&start=1000-01-01 00:00:00&end=1002-01-01 00:00:00&addPaginationHeader=true",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"WeatherForecast"
+							],
+							"query": [
+								{
+									"key": "$orderby",
+									"value": "date"
+								},
+								{
+									"key": "summary",
+									"value": "Warm"
+								},
+								{
+									"key": "start",
+									"value": "1000-01-01 00:00:00"
+								},
+								{
+									"key": "end",
+									"value": "1002-01-01 00:00:00"
+								},
+								{
+									"key": "addPaginationHeader",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get Warm weather ids",
 			"event": [
 				{
 					"listen": "test",
@@ -155,7 +341,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{url}}/WeatherForecast?$filter=id ge 3286&$top=365",
+					"raw": "{{url}}/WeatherForecast?$takeOneElementEach=50&$filter=summary eq 'Warm'&$select=id",
 					"host": [
 						"{{url}}"
 					],
@@ -164,12 +350,16 @@
 					],
 					"query": [
 						{
-							"key": "$filter",
-							"value": "id ge 3286"
+							"key": "$takeOneElementEach",
+							"value": "50"
 						},
 						{
-							"key": "$top",
-							"value": "365"
+							"key": "$filter",
+							"value": "summary eq 'Warm'"
+						},
+						{
+							"key": "$select",
+							"value": "id"
 						}
 					]
 				}

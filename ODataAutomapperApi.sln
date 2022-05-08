@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ODataAutomapperApi", "ODataAutomapperApi\ODataAutomapperApi.csproj", "{80D5379E-C204-4F8A-88FE-BD0B0F93DE13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ODataAutomapperApi", "ODataAutomapperApi\ODataAutomapperApi.csproj", "{80D5379E-C204-4F8A-88FE-BD0B0F93DE13}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataFeeder", "DataFeeder\DataFeeder.csproj", "{8FA22182-B3A9-415C-A08F-B8C0EE142616}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ODataAutomapperApi.Models", "ODataAutomapperApi.Models\ODataAutomapperApi.Models.csproj", "{77EB3254-7ACC-4AF9-A981-B2DBE097AAB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ODataAutomapper.NBomberTest", "ODataAutomapper.NBomberTest\ODataAutomapper.NBomberTest.csproj", "{6A5A731F-9037-49D8-A97E-8531818A3B09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{80D5379E-C204-4F8A-88FE-BD0B0F93DE13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80D5379E-C204-4F8A-88FE-BD0B0F93DE13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80D5379E-C204-4F8A-88FE-BD0B0F93DE13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FA22182-B3A9-415C-A08F-B8C0EE142616}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FA22182-B3A9-415C-A08F-B8C0EE142616}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FA22182-B3A9-415C-A08F-B8C0EE142616}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FA22182-B3A9-415C-A08F-B8C0EE142616}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77EB3254-7ACC-4AF9-A981-B2DBE097AAB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77EB3254-7ACC-4AF9-A981-B2DBE097AAB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77EB3254-7ACC-4AF9-A981-B2DBE097AAB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77EB3254-7ACC-4AF9-A981-B2DBE097AAB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A5A731F-9037-49D8-A97E-8531818A3B09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A5A731F-9037-49D8-A97E-8531818A3B09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A5A731F-9037-49D8-A97E-8531818A3B09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A5A731F-9037-49D8-A97E-8531818A3B09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

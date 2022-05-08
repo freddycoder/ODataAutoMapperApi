@@ -1,0 +1,3 @@
+test_suite,test_name,scenario,duration,step_name,request_count,ok,failed,rps,min,mean,max,50_percent,75_percent,95_percent,99_percent,std_dev,data_transfer_min_kb,data_transfer_mean_kb,data_transfer_max_kb,data_transfer_all_mb
+nbomber_default_test_suite_name,nbomber_default_test_name,compare_keybased_vs_offset,00:02:00,key_based_pagination,622,443,179,3,7,50,91,7745,84,24975,33,6119,42,13844,48,22790,14,24559,62,7884,9,28,43,43,749,63,661,18,9268
+nbomber_default_test_suite_name,nbomber_default_test_name,compare_keybased_vs_offset,00:02:00,skipNtake_based_pagination,354,284,70,2,4,94,94,6095,09,24934,53,598,02,11042,82,23101,44,24444,93,7801,87,1,455,39,023,55,353,10,8228

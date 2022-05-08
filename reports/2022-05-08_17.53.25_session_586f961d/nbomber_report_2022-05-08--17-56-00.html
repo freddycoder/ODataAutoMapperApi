@@ -1,0 +1,1630 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>NBomber</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+
+<style>#wrapper {
+    padding-left: 70px;
+    transition: all .4s ease 0s;
+    height: 100%
+}
+
+#sidebar-wrapper {
+    top: calc(50px + var(--header-padding-top) + var(--header-padding-bottom));
+    margin-left: -200px;
+    left: 70px;
+    width: 200px;
+    position: fixed;
+    height: 100%;
+    z-index: 10000;
+    transition: left .4s ease 0s;
+    overflow: auto;
+}
+
+#page-content-wrapper {
+    transition: all .4s ease 0s;
+    margin: calc(65px + var(--header-padding-top) + var(--header-padding-bottom)) 0px 0px 200px;
+}
+
+#page-content-wrapper.active {
+    margin-left: 70px;
+}
+
+.sidebar-nav {
+    display: block;
+    float: left;
+    width: 200px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#wrapper.active {
+    padding-left: 200px;
+}
+
+#wrapper.active #sidebar-wrapper {
+    left: 200px;
+}
+
+#sidebar_menu li a, .sidebar-nav li a {
+    display: block;
+    float: left;
+    text-decoration: none;
+    width: 200px;
+    background: rgba(255, 255, 255, 0.01);
+    -webkit-transition: background .5s;
+    -moz-transition: background .5s;
+    -o-transition: background .5s;
+    -ms-transition: background .5s;
+    transition: background .5s;
+}
+
+.sidebar-nav li {
+    line-height: 40px;
+    text-indent: 20px;
+}
+
+.sidebar-nav li a {
+    color: #999999 !important;
+    display: block;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.sidebar-nav li a:hover,
+.sidebar-nav li a.active {
+    color: #fff !important;
+    background: rgba(255, 255, 255, 0.3) !important;
+    text-decoration: none;
+}
+
+.sidebar-nav li a:active, .sidebar-nav li a:focus {
+    text-decoration: none;
+}
+
+.sidebar-nav li a.active {
+    font-weight: bold;
+}
+
+.sidebar-nav li a.disabled {
+    color: #616161 !important; /* Gray 500 */
+}
+
+.sidebar-nav > .sidebar-brand {
+    height: 65px;
+    line-height: 60px;
+    font-size: 18px;
+}
+
+.main-icon {
+    float: right;
+    padding-right: 30px;
+    padding-top: 20px;
+}
+
+.sub-icon {
+    float: right;
+    padding-right: 30px;
+    padding-top: 10px;
+}
+
+.sub-icon.sub-icon-environment {
+    padding-right: 27px;
+}
+
+.sub-icon.sub-icon-test-suite {
+    padding-right: 28px;
+}
+
+.sub-icon.sub-icon-plugin {
+    padding-right: 25px;
+}
+
+.sub-icon.sub-icon-scenario {
+    padding-right: 88px;
+    padding-top: 3px;
+}
+
+.sub-icon.sub-icon-plugin {
+    padding-right: 22px;
+}
+
+.fa-stack .stack-label {
+    font-size: 9px;
+}
+
+.content-header {
+    height: 65px;
+    line-height: 65px;
+}
+
+.content-header h1 {
+    margin: 0;
+    margin-left: 20px;
+    line-height: 65px;
+    display: inline-block;
+}
+
+@media (max-width:768px) {
+    #wrapper {
+        padding-left: 70px;
+        transition: all .4s ease 0s;
+    }
+
+    #sidebar-wrapper {
+        left: 70px;
+    }
+
+    #wrapper.active {
+        padding-left: 200px;
+    }
+
+    #wrapper.active #sidebar-wrapper {
+        left: 200px;
+        width: 200px;
+        transition: all .4s ease 0s;
+    }
+}
+
+footer p {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 85px;
+    padding-left: 18px;
+    padding-right: 20px;
+    font-size: 12px;
+    width: 35%;
+    transition: width .4s ease;
+}
+
+.active footer p {
+    width: 100%;
+}
+</style>
+<style>[v-cloak] {
+    display: none;
+}
+
+:root {
+    --header-padding-top: 0.5vw;
+    --header-padding-bottom: 0.3vw;
+}
+
+.navbar-brand {
+    padding: 0;
+}
+
+.navbar {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    padding-top: var(--header-padding-top);
+    padding-bottom: var(--header-padding-bottom);
+}
+
+.nav-step-stats.nav > a {
+    color: #2e3951;
+}
+
+    .nav-step-stats.nav > a:hover {
+        color: #2196f3;
+    }
+
+    .nav-step-stats.nav > a.active, .nav-step-stats.nav > a.active:hover {
+        color: #2196f3;
+        font-weight: bold;
+    }
+
+.sticky-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding-left: 15px;
+}
+
+.sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 60px;
+}
+
+h6 {
+    padding: 10px;
+}
+
+.card.custom {
+    margin-bottom: 20px;
+}
+
+.card.custom .card-header h6 {
+    margin: 0
+}
+
+div.scenario-stats {
+    margin: 10px 0;
+}
+
+table.table-status-codes {
+    margin-bottom: 0;
+}
+
+table.table-scenario-stats tr th {
+    text-align: center;
+}
+
+table.table-scenario-stats tr td {
+    text-align: right;
+}
+
+.scenario table tr td:first-child {
+    text-align: left;
+}
+
+[data-toggle="collapse"] .fa {
+    transition: .3s transform ease-in-out;
+}
+
+[data-toggle="collapse"].collapsed .fa {
+    transform: rotate(-90deg);
+}
+
+.tab-content>.tab-pane {
+    height: 0;
+    overflow: hidden;
+    display: block;
+    visibility: hidden;
+}
+
+.tab-content>.active {
+    height: auto;
+    overflow: visible;
+    visibility: visible;
+}
+
+.custom-switch>* {
+    cursor: pointer;
+}
+
+.chart {
+    width: 100%;
+    height: 200px;
+}
+
+.chart.chart-timeline {
+    height: 400px;
+}
+</style>
+
+    <!-- No Data Template -->
+    <script type="text/x-template" id="no-data-template">
+        <h3>No Data</h3>
+    </script>
+
+    <!-- Scenario Header -->
+    <script type="text/x-template" id="scenario-header-template">
+        <span>
+            scenario #{{scenarioIndex + 1}}: <span class="custom mdb-color darken-1 blue-text font-weight-bold">{{scenarioName}}</span>
+        </span>
+    </script>
+
+    <!-- Cluster Info Table -->
+    <script type="text/x-template" id="node-info-table-template">
+        <div class="card custom" v-if="nodeInfo">
+            <div class="card-header mdb-color darken-2 white-text">
+                <h6>Environment</h6>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover table-sm table-cluster-info">
+                    <thead class="mdb-color lighten-2 white-text">
+                        <tr>
+                            <th>Machine Name</th>
+                            <th>OS</th>
+                            <th>.NET Runtime</th>
+                            <th>Processor</th>
+                            <th>Cores</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{nodeInfo.MachineName}}</td>
+                            <td>{{nodeInfo.OS.VersionString}}</td>
+                            <td>{{nodeInfo.DotNetVersion}}</td>
+                            <td>{{nodeInfo.Processor}}</td>
+                            <td>{{nodeInfo.CoresCount}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <no-data v-else></no-data>
+    </script>
+
+    <!-- Scenarios Stats Template -->
+    <script type="text/x-template" id="scenario-stats-template">
+        <p class="note">
+            requests: <span class="text-primary">{{scenarioStats.RequestCount}}</span>,
+            ok requests: <span class="text-primary">{{scenarioStats.OkCount}}</span>,
+            fail requests: <span class="text-primary">{{scenarioStats.FailCount}}</span>,
+            all data: <span class="text-primary">{{toMb(scenarioStats.AllBytes)}}</span> MB
+        </p>
+    </script>
+
+    <!-- Scenarios Stats Table Template -->
+    <script type="text/x-template" id="scenario-stats-table-template">
+        <div class="note scenario-stats" :class="{'note-success': !failStats, 'note-danger': failStats}">
+            <p>{{statsName.toLowerCase()}} stats</p>
+            <table class="table table-hover table-striped table-bordered table-sm table-scenario-stats">
+                <thead class="mdb-color lighten-1 white-text">
+                    <tr>
+                        <th></th>
+                        <th :colspan="(failStats || scenarioStats.FailCount > 0) ? 3 : 4">request number</th>
+                        <th colspan="4">latency, ms</th>
+                        <th colspan="4">latency percentile, ms</th>
+                        <th colspan="4">data transfer</th>
+                    </tr>
+                    <tr>
+                        <th>step</th>
+                        <th>all</th>
+                        <th v-if="!failStats">&nbsp;&nbsp;&nbsp;ok&nbsp;&nbsp;&nbsp;</span></th>
+                        <th v-if="failStats || scenarioStats.FailCount === 0">failed</th>
+                        <th>RPS</th>
+                        <th>min</th>
+                        <th>mean</th>
+                        <th>max</th>
+                        <th>StdDev</th>
+                        <th>50th</th>
+                        <th>75th</th>
+                        <th>95th</th>
+                        <th>99th</th>
+                        <th>min, KB</th>
+                        <th>mean, KB</th>
+                        <th>max, KB</th>
+                        <th>all, MB</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(stepStats, index) in scenarioStats.StepStats" :key="`step-stats-${index}`">
+                        <td><strong>{{stepStats.StepName}}</strong></td>
+                        <td>{{stepStats.Ok.Request.Count + stepStats.Fail.Request.Count}}</td>
+                        <td v-if="!failStats">{{stepStats.Ok.Request.Count}}</td>
+                        <td v-if="failStats || scenarioStats.FailCount === 0">{{stepStats.Fail.Request.Count}}</td>
+                        <td>{{stepStats[statsName].Request.RPS}}</td>
+                        <td>{{stepStats[statsName].Latency.MinMs}}</td>
+                        <td>{{stepStats[statsName].Latency.MeanMs}}</td>
+                        <td>{{stepStats[statsName].Latency.MaxMs}}</td>
+                        <td>{{stepStats[statsName].Latency.StdDev}}</td>
+                        <td>{{stepStats[statsName].Latency.Percent50}}</td>
+                        <td>{{stepStats[statsName].Latency.Percent75}}</td>
+                        <td>{{stepStats[statsName].Latency.Percent95}}</td>
+                        <td>{{stepStats[statsName].Latency.Percent99}}</td>
+                        <td>{{toKb(stepStats[statsName].DataTransfer.MinBytes)}}</td>
+                        <td>{{toKb(stepStats[statsName].DataTransfer.MeanBytes)}}</td>
+                        <td>{{toKb(stepStats[statsName].DataTransfer.MaxBytes)}}</td>
+                        <td>{{toMb(stepStats[statsName].DataTransfer.AllBytes)}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </script>
+
+    <!-- Scenarios Stats Requests Number Table Template -->
+    <script type="text/x-template" id="scenario-stats-requests-number-table-template">
+        <div class="note scenario-stats" :class="{'note-success': !failStats, 'note-danger': failStats}">
+            <p>{{statsName.toLowerCase()}} stats</p>
+            <table class="table table-hover table-striped table-bordered table-sm table-scenario-stats">
+                <thead class="mdb-color lighten-1 white-text">
+                    <tr>
+                        <th></th>
+                        <th :colspan="failStats ? 3 : 4">request number</th>
+                    </tr>
+                    <tr>
+                        <th>step</th>
+                        <th>all</th>
+                        <th v-if="!failStats">ok</th>
+                        <th v-if="failStats || scenarioStats.FailCount === 0">failed</th>
+                        <th>RPS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(stepStats, index) in scenarioStats.StepStats" :key="`step-stats-${index}`">
+                        <td><strong>{{stepStats.StepName}}</strong></td>
+                        <td>{{stepStats.Ok.Request.Count + stepStats.Fail.Request.Count}}</td>
+                        <td v-if="!failStats">{{stepStats.Ok.Request.Count}}</td>
+                        <td v-if="failStats || scenarioStats.FailCount === 0">{{stepStats.Fail.Request.Count}}</td>
+                        <td>{{stepStats[statsName].Request.RPS}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </script>
+
+    <!-- Scenarios Stats Latency Table Template -->
+    <script type="text/x-template" id="scenario-stats-latency-table-template">
+        <div class="note scenario-stats" :class="{'note-success': !failStats, 'note-danger': failStats}">
+            <p>{{statsName.toLowerCase()}} stats</p>
+            <table class="table table-hover table-striped table-bordered table-sm">
+                <thead class="mdb-color lighten-1 white-text">
+                    <tr>
+                        <th></th>
+                        <th colspan="4">latency, ms</th>
+                        <th colspan="4">latency percentile, ms</th>
+                    </tr>
+                    <tr>
+                        <th>step</th>
+                        <th>min</th>
+                        <th>mean</th>
+                        <th>max</th>
+                        <th>StdDev</th>
+                        <th>50th</th>
+                        <th>75th</th>
+                        <th>95th</th>
+                        <th>99th</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(stepStats, index) in scenarioStats.StepStats" :key="`step-stats-${index}`">
+                        <td><strong>{{stepStats.StepName}}</strong></td>
+                        <td>{{stepStats[statsName].Latency.MinMs}}</td>
+                        <td>{{stepStats[statsName].Latency.MeanMs}}</td>
+                        <td>{{stepStats[statsName].Latency.MaxMs}}</td>
+                        <td>{{stepStats[statsName].Latency.Percent50}}</td>
+                        <td>{{stepStats[statsName].Latency.Percent75}}</td>
+                        <td>{{stepStats[statsName].Latency.Percent95}}</td>
+                        <td>{{stepStats[statsName].Latency.Percent99}}</td>
+                        <td>{{stepStats[statsName].Latency.StdDev}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </script>
+
+    <!-- Scenarios Stats Data Transfer Table Template -->
+    <script type="text/x-template" id="scenario-stats-data-transfer-table-template">
+        <div class="note scenario-stats" :class="{'note-success': !failStats, 'note-danger': failStats}">
+            <p>{{statsName.toLowerCase()}} stats</p>
+            <table class="table table-hover table-striped table-bordered table-sm table-scenario-stats">
+                <thead class="mdb-color lighten-1 white-text">
+                    <tr>
+                        <th></th>
+                        <th colspan="4">data transfer</th>
+                    </tr>
+                    <tr>
+                        <th>step</th>
+                        <th>min, KB</th>
+                        <th>mean, KB</th>
+                        <th>max, KB</th>
+                        <th>all, MB</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(stepStats, index) in scenarioStats.StepStats" :key="`step-stats-${index}`">
+                        <td><strong>{{stepStats.StepName}}</strong></td>
+                        <td>{{toKb(stepStats[statsName].DataTransfer.MinBytes)}}</td>
+                        <td>{{toKb(stepStats[statsName].DataTransfer.MeanBytes)}}</td>
+                        <td>{{toKb(stepStats[statsName].DataTransfer.MaxBytes)}}</td>
+                        <td>{{toMb(stepStats[statsName].DataTransfer.AllBytes)}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </script>
+
+    <!-- Plugins Stats Table Template -->
+    <script type="text/x-template" id="plugins-stats-table-template">
+        <div class="row">
+            <div class="col">
+                <div v-for="(table, tableIndex) in tables"
+                     :key="`plugin-stats-${tableIndex}`"
+                     v-if="pluginsStats"
+                     class="card custom scenario">
+                    <div class="card-header mdb-color darken-2 white-text">
+                        <h6>plugin stats: <span class="custom mdb-color darken-1 blue-text font-weight-bold">{{table.name}}</span></h6>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-hover table-striped table-sm table-plugin-stats">
+                            <thead class="mdb-color lighten-2 white-text">
+                                <tr>
+                                    <th v-for="(col, index) in table.cols" :key="`plugin-stats-col-${index}`">
+                                        {{col}}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(row, index) in table.rows" :key="`plugin-stats-row-${index}`">
+                                    <td v-for="(value, colIndex) in row" :key="`plugin-stats-row-${index}-${colIndex}`">
+                                        {{value}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/x-template" id="status-codes-template">
+        <div class="row">
+            <div class="col-xl-8 col-lg-8 col-md-12">
+                <div class="note">
+                    <p>status codes</p>
+                    <table class="table table-hover table-striped table-sm table-status-codes">
+                        <thead class="mdb-color lighten-1 white-text">
+                            <tr>
+                                <th>status code</th>
+                                <th>count</th>
+                                <th>message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(statusCode, index) in allStatusCodes" :key="`status-codes-${index}`">
+                                <td><strong :class="{'text-success': !statusCode.IsError, 'text-danger': statusCode.IsError}">{{statusCode.StatusCode}}</strong></td>
+                                <td>{{statusCode.Count}}</td>
+                                <td class="text-danger">{{statusCode.Message}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-12">
+                <chart-status-codes :status-codes="allStatusCodes" v-show="showCharts"></chart-status-codes>
+            </div>
+        </div>
+
+    </script>
+
+    <script type="text/x-template" id="hints-table-template">
+        <div class="card custom">
+            <div class="card-header mdb-color darken-2 white-text">
+                <h6>hints</h6>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover table-striped table-sm table-status-codes">
+                    <thead class="bg-warning white-text">
+                    <tr>
+                        <th>source</th>
+                        <th>name</th>
+                        <th>hint</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="(hint, index) in hints" :key="`hint-${index}`">
+                        <td>{{hint.SourceType}}</td>
+                        <td>{{hint.SourceName}}</td>
+                        <td>{{hint.Hint}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </script>
+
+</head>
+<body>
+    <div id="app">
+        <!-- Navbar -->
+        <nav class="navbar mdb-color darken-3">
+            <a class="navbar-brand" href="https://nbomber.com/" target="_blank">
+                <img src="https://raw.githubusercontent.com/PragmaticFlow/NBomber/master/assets/nbomber_logo.png"
+                     height="50" class="d-inline-block align-top" alt="NBomber" />
+            </a>
+            <div class="custom-control custom-switch" v-show="showChartsSwitcher" v-cloak>
+                <input type="checkbox" class="custom-control-input" id="charts-switcher" v-model="showCharts">
+                <label class="custom-control-label white-text" for="charts-switcher">Toggle Charts</label>
+            </div>
+        </nav>
+
+        <!-- Sidebar -->
+        <div id="wrapper" :class="{ active: sideBarActive }" v-cloak>
+            <div id="sidebar-wrapper" class="mdb-color darken-3">
+                <!-- Menu -->
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand">
+                        <a id="menu-toggle" href="#" @click.prevent="toggleSideBar">
+                            Menu<span class="main-icon fas fa-align-justify"></span>
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="sidebar-nav nav nav-pills mb-3" role="tablist">
+                    <li class="nav-item">
+                        <a data-toggle="pill" href="#env-view" role="tab" aria-controls="env-view"
+                           @click="selectView('environment')">
+                            Environment <span class="sub-icon sub-icon-environment fas fa-desktop"></span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a data-toggle="pill" href="#test-suite-view" class="active" role="tab" aria-controls="test-suite-view"
+                           @click="selectView('test-suite')">
+                            Test Suite <span class="sub-icon sub-icon-test-suite fas fa-flask"></span>
+                        </a>
+                    </li>
+
+                    <li v-for="(scenarioStats, index) in viewModel.FinalStats.ScenarioStats"
+                        :key="`nav-scenario-stats-${index}`"
+                        data-toggle="tooltip"
+                        data-placement="right"
+                        :title="scenarioStats.ScenarioName">
+
+                        <a data-toggle="pill"
+                           :href="`#scenario-${index}-view`"
+                           role="tab"
+                           :aria-controls="`scenario-${index}-view`"
+                           @click="selectView(`scenario-${index}`)">
+                            Scenario #{{index + 1}}
+                            <span class="sub-icon sub-icon-scenario fas fa-stack">
+                                <span class="far fa-circle fa-stack-1x"></span>
+                                <span class="fas fa-stack-1x stack-label">{{index + 1}}</span>
+                            </span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a data-toggle="pill" href="#plugins-stats-view" role="tab" aria-controls="plugins-stats-view"
+                           @click="selectView('plugins')"
+                           :class="{disabled: !viewModel.FinalStats.PluginStats || !viewModel.FinalStats.PluginStats.length}">
+                            Plugins <span class="sub-icon sub-icon-plugin fas fa-puzzle-piece"></span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a data-toggle="pill" href="#hints-view" role="tab" aria-controls="hints-view"
+                           @click="selectView('hints')"
+                           :class="{disabled: !viewModel.Hints || !viewModel.Hints.length}">
+                            Hints <span class="sub-icon sub-icon-plugin fas fa-exclamation-triangle"></span>
+                        </a>
+                    </li>
+                </ul>
+                <footer>
+                    <p class="blue-grey-text" v-cloak>
+                        <span>v{{viewModel.FinalStats.NodeInfo.NBomberVersion}}</span>
+                    </p>
+                </footer>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div id="page-content-wrapper" :class="{ active: !sideBarActive }">
+            <div class="container">
+
+                <div class="text-center" v-if="false">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+
+                <div class="tab-content" v-cloak>
+                    <!-- Environment View -->
+                    <div class="tab-pane fade show" id="env-view" role="tabpanel">
+                        <div class="row">
+                            <div class="col">
+                                <node-info-table :node-info="viewModel.FinalStats.NodeInfo"></node-info-table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Test Suite View -->
+                    <div class="tab-pane fade show active" id="test-suite-view" role="tabpanel"
+                         v-if="viewModel.FinalStats.ScenarioStats && viewModel.FinalStats.PluginStats">
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="card custom scenario">
+                                    <div class="card-header mdb-color darken-2 white-text">
+                                        <h6>test info</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table table-hover table-sm table-cluster-info">
+                                            <thead class="mdb-color lighten-2 white-text">
+                                            <tr>
+                                                <th>session</th>
+                                                <th>test suite</th>
+                                                <th>test name</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>{{viewModel.FinalStats.TestInfo.SessionId}}</td>
+                                                <td>{{viewModel.FinalStats.TestInfo.TestSuite}}</td>
+                                                <td>{{viewModel.FinalStats.TestInfo.TestName}}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div v-for="(scenarioStats, scenarioIndex) in viewModel.FinalStats.ScenarioStats"
+                             :key="`test-suite-scenario-stats-${scenarioIndex}`"
+                             v-if="viewModel.FinalStats.ScenarioStats"
+                             class="row">
+                            <div class="col">
+                                <div class="card custom scenario">
+                                    <div class="card-header mdb-color darken-2 white-text">
+                                        <h6>
+                                            <a href="#" class="white-text"
+                                               data-toggle="collapse" :data-target="`#test-suite-scenario-content-${scenarioIndex}`"
+                                               aria-expanded="true" :aria-controls="`test-suite-scenario-content-${scenarioIndex}`">
+                                                <span class="fa fa-chevron-down float-right"></span>
+                                                <scenario-header :scenario-index="scenarioIndex" :scenario-name="scenarioStats.ScenarioName"></scenario-header>
+                                            </a>
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div :id="`test-suite-scenario-content-${scenarioIndex}`" class="show">
+                                            <!-- TestSuite View / Stats Table -->
+                                            <div class="row">
+                                                <div class="col">
+                                                    <scenario-stats :scenario-stats="scenarioStats"></scenario-stats>
+                                                </div>
+                                            </div>
+                                            <div class="row d-none d-lg-block">
+                                                <div class="col">
+                                                    <scenario-stats-table :scenario-stats="scenarioStats" :fail-stats="false"></scenario-stats-table>
+                                                </div>
+                                            </div>
+                                            <div class="row d-none d-lg-block" v-if="scenarioStats.FailCount > 0">
+                                                <div class="col">
+                                                    <scenario-stats-table :scenario-stats="scenarioStats" :fail-stats="true"></scenario-stats-table>
+                                                </div>
+                                            </div>
+                                            <div class="row d-lg-none">
+                                                <div class="col">
+                                                    <scenario-stats-requests-number-table :scenario-stats="scenarioStats" :fail-stats="false"></scenario-stats-requests-number-table>
+                                                 </div>
+                                            </div>
+                                            <div class="row d-lg-none">
+                                                <div class="col">
+                                                    <scenario-stats-latency-table :scenario-stats="scenarioStats" :fail-stats="false"></scenario-stats-latency-table>
+                                                 </div>
+                                            </div>
+                                            <div class="row d-lg-none">
+                                                <div class="col">
+                                                    <scenario-stats-data-transfer-table :scenario-stats="scenarioStats" :fail-stats="false"></scenario-stats-data-transfer-table>
+                                                </div>
+                                            </div>
+                                            <div class="row d-lg-none" v-if="scenarioStats.FailCount > 0">
+                                                <div class="col">
+                                                    <scenario-stats-requests-number-table :scenario-stats="scenarioStats" :fail-stats="true"></scenario-stats-requests-number-table>
+                                                </div>
+                                            </div>
+                                            <div class="row d-lg-none" v-if="scenarioStats.FailCount > 0">
+                                                <div class="col">
+                                                    <scenario-stats-latency-table :scenario-stats="scenarioStats" :fail-stats="true"></scenario-stats-latency-table>
+                                                </div>
+                                            </div>
+                                            <div class="row d-lg-none" v-if="scenarioStats.FailCount > 0">
+                                                <div class="col">
+                                                    <scenario-stats-data-transfer-table :scenario-stats="scenarioStats" :fail-stats="true"></scenario-stats-data-transfer-table>
+                                                </div>
+                                            </div>
+                                            <div class="row" v-if="scenarioStats.StatusCodes && scenarioStats.StatusCodes.length">
+                                                <div class="col">
+                                                    <!-- TestSuite View / Status Codes Table -->
+                                                    <status-codes :status-codes="scenarioStats.StatusCodes"
+                                                                  :ok-count="scenarioStats.OkCount"
+                                                                  :fail-count="scenarioStats.FailCount"
+                                                                  :show-charts="showCharts">
+                                                    </status-codes>
+                                                </div>
+                                            </div>
+                                            <div v-show="showCharts">
+                                                <div class="row">
+                                                    <div class="col-xl-8 col-lg-8 col-md-12">
+                                                        <!-- TestSuite View / Scenario Latency (Columns) -->
+                                                        <chart-scenario-latency-indicators :scenario-stats="scenarioStats"></chart-scenario-latency-indicators>
+                                                    </div>
+                                                    <div class="col-xl-4 col-lg-4 col-md-12">
+                                                        <!-- TestSuite View / Scenario Requests -->
+                                                        <chart-scenario-requests :scenario-stats="scenarioStats"></chart-scenario-requests>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <!-- TestSuite View / Scenario Latency -->
+                                                        <chart-scenario-latency-distribution :time-line-history="viewModel.TimeLineHistory"
+                                                                                             :scenario-name="scenarioStats.ScenarioName">
+                                                        </chart-scenario-latency-distribution>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <plugins-stats-table :plugins-stats="viewModel.FinalStats.PluginStats"></plugins-stats-table>
+                            </div>
+                        </div>
+
+                        <div class="row" v-if="viewModel.Hints && viewModel.Hints.length">
+                            <div class="col">
+                                <!-- TestSuite View / Hints Table -->
+                                <hints-table :hints="viewModel.Hints"></hints-table>
+                            </div>
+                        </div>
+                    </div>
+                    <no-data v-else></no-data>
+                    <!-- Scenarios Views -->
+                    <div v-for="(scenarioStats, scenarioIndex) in viewModel.FinalStats.ScenarioStats" :key="`scenario-stats-${scenarioIndex}`"
+                         class="tab-pane fade show"
+                         :id="`scenario-${scenarioIndex}-view`"
+                         role="tabpanel">
+
+                        <!-- Scenario Stats -->
+                        <div class="row">
+                            <div class="col">
+                                <div class="card custom scenario">
+                                    <div class="card-header mdb-color darken-2 white-text">
+                                        <h6>
+                                            <scenario-header :scenario-index="scenarioIndex" :scenario-name="scenarioStats.ScenarioName"></scenario-header>
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <!-- Scenario View / Stats Table -->
+                                        <div class="row">
+                                            <div class="col">
+                                                <scenario-stats :scenario-stats="scenarioStats"></scenario-stats>
+                                            </div>
+                                        </div>
+                                        <div class="row d-none d-lg-block">
+                                            <div class="col">
+                                                <scenario-stats-table :scenario-stats="scenarioStats" :fail-stats="false"></scenario-stats-table>
+                                            </div>
+                                        </div>
+                                        <div class="row d-none d-lg-block" v-if="scenarioStats.FailCount > 0">
+                                            <div class="col">
+                                                <scenario-stats-table :scenario-stats="scenarioStats" :fail-stats="true"></scenario-stats-table>
+                                            </div>
+                                        </div>
+                                        <div class="row d-lg-none">
+                                            <div class="col">
+                                                <scenario-stats-requests-number-table :scenario-stats="scenarioStats" :fail-stats="false"></scenario-stats-requests-number-table>
+                                            </div>
+                                        </div>
+                                        <div class="row d-lg-none">
+                                            <div class="col">
+                                                <scenario-stats-latency-table :scenario-stats="scenarioStats" :fail-stats="false"></scenario-stats-latency-table>
+                                            </div>
+                                        </div>
+                                        <div class="row d-lg-none">
+                                            <div class="col">
+                                                <scenario-stats-data-transfer-table :scenario-stats="scenarioStats" :fail-stats="false"></scenario-stats-data-transfer-table>
+                                            </div>
+                                        </div>
+                                        <div class="row d-lg-none" v-if="scenarioStats.FailCount > 0">
+                                            <div class="col">
+                                                <scenario-stats-requests-number-table :scenario-stats="scenarioStats" :fail-stats="true"></scenario-stats-requests-number-table>
+                                            </div>
+                                        </div>
+                                        <div class="row d-lg-none" v-if="scenarioStats.FailCount > 0">
+                                            <div class="col">
+                                                <scenario-stats-latency-table :scenario-stats="scenarioStats" :fail-stats="true"></scenario-stats-latency-table>
+                                            </div>
+                                        </div>
+                                        <div class="row d-lg-none" v-if="scenarioStats.FailCount > 0">
+                                            <div class="col">
+                                                <scenario-stats-data-transfer-table :scenario-stats="scenarioStats" :fail-stats="true"></scenario-stats-data-transfer-table>
+                                            </div>
+                                        </div>
+                                        <div class="row" v-if="scenarioStats.StatusCodes && scenarioStats.StatusCodes.length">
+                                            <div class="col">
+                                                <!-- Scenario View / Status Codes Table -->
+                                                <status-codes :status-codes="scenarioStats.StatusCodes"
+                                                              :ok-count="scenarioStats.OkCount"
+                                                              :fail-count="scenarioStats.FailCount">
+                                                </status-codes>
+                                            </div>
+                                        </div>
+                                        <lazy-load :loaded-views="loadedViews" :load-for-view="`scenario-${scenarioIndex}`">
+                                            <div class="row">
+                                                <div class="col-xl-8 col-lg-8 col-md-12">
+                                                    <!-- Scenario View / Scenario Latency (Column) -->
+                                                    <chart-scenario-latency-indicators :scenario-stats="scenarioStats"></chart-scenario-latency-indicators>
+                                                </div>
+                                                <div class="col-xl-4 col-lg-4 col-md-12">
+                                                    <!-- Scenario View / Scenario Requests -->
+                                                    <chart-scenario-requests :scenario-stats="scenarioStats"></chart-scenario-requests>
+                                                </div>
+                                            </div>
+                                        </lazy-load>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step Stats -->
+                        <div class="row">
+                            <div class="col-2">
+                                <div class="sticky-wrapper">
+                                    <div class="card custom steps sticky">
+                                        <div class="card-header mdb-color darken-2 white-text">
+                                            <h6>steps</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="nav flex-column nav-step-stats" role="tablist" aria-orientation="vertical">
+                                                <a v-for="(stepStats, stepIndex) in scenarioStats.StepStats"
+                                                   :key="`scenario-stats-${scenarioIndex}-step-stats-${stepIndex}-link`"
+                                                   :class="{'nav-link': true, active: stepIndex === 0}"
+                                                   data-toggle="pill"
+                                                   :href="`#scenario-${scenarioIndex}-view-step-${stepIndex}`"
+                                                   role="tab"
+                                                   :aria-controls="`#scenario-${scenarioIndex}-view-step-${stepIndex}`"
+                                                   aria-selected="false"
+                                                   data-placement="right"
+                                                   :title="stepStats.StepName"
+                                                   @click="selectView(`scenario-${scenarioIndex}-step-${stepIndex}`)">
+                                                    step #{{stepIndex + 1}}
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-10">
+                                <div class="tab-content">
+
+                                    <div v-for="(stepStats, stepIndex) in scenarioStats.StepStats"
+                                         :key="`scenario-stats-${scenarioIndex}-step-stats-${stepIndex}-tab`"
+                                         :class="{ 'tab-pane': true, fade: true, show: stepIndex === 0, active: stepIndex === 0 }"
+                                         :id="`scenario-${scenarioIndex}-view-step-${stepIndex}`"
+                                         role="tabpanel"
+                                         :aria-labelledby="`scenario-${scenarioIndex}-view-step-${stepIndex}`">
+
+                                        <div class="card custom step">
+                                            <div class="card-header mdb-color darken-2 white-text">
+                                                <h6>
+                                                    step #{{stepIndex + 1}}: <span class="custom mdb-color darken-1 blue-text font-weight-bold">{{stepStats.StepName}}</span>
+                                                </h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row"
+                                                     v-if="stepStats.Ok.StatusCodes.length || stepStats.Fail.StatusCodes.length">
+                                                    <div class="col">
+                                                        <!-- Step View / Status Codes Table -->
+                                                        <status-codes :status-codes="stepStats.Ok.StatusCodes.concat(stepStats.Fail.StatusCodes)"
+                                                                      :ok-count="stepStats.Ok.Request.Count"
+                                                                      :fail-count="stepStats.Fail.Request.Count">
+                                                        </status-codes>
+                                                    </div>
+                                                </div>
+                                                <lazy-load :loaded-views="loadedViews"
+                                                           :load-for-view="stepIndex === 0 ? `scenario-${scenarioIndex}` : `scenario-${scenarioIndex}-step-${stepIndex}`">
+                                                    <!-- Step View / Step Throughput -->
+                                                    <chart-timeline-step-throughput :time-line-history="viewModel.TimeLineHistory"
+                                                                                    :scenario-name="scenarioStats.ScenarioName"
+                                                                                    :step-name="stepStats.StepName">
+                                                    </chart-timeline-step-throughput>
+
+                                                    <!-- Step View / Step Latency -->
+                                                    <chart-timeline-step-latency :time-line-history="viewModel.TimeLineHistory"
+                                                                                 :scenario-name="scenarioStats.ScenarioName"
+                                                                                 :step-name="stepStats.StepName">
+                                                    </chart-timeline-step-latency>
+
+                                                    <!-- Step View / Step Data Transfer -->
+                                                    <chart-timeline-step-data-transfer :time-line-history="viewModel.TimeLineHistory"
+                                                                                       :scenario-name="scenarioStats.ScenarioName"
+                                                                                       :step-name="stepStats.StepName">
+                                                    </chart-timeline-step-data-transfer>
+                                                </lazy-load>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Plugins Stats Views -->
+                    <div class="tab-pane fade show" id="plugins-stats-view" role="tabpanel"
+                         v-if="viewModel.FinalStats.PluginStats && viewModel.FinalStats.PluginStats.length > 0">
+                        <div class="row">
+                            <div class="col">
+                                <plugins-stats-table :plugins-stats="viewModel.FinalStats.PluginStats"></plugins-stats-table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hints Views -->
+                    <div class="tab-pane fade show" id="hints-view" role="tabpanel"
+                         v-if="viewModel.Hints && viewModel.Hints.length > 0">
+                        <div class="row" v-if="viewModel.Hints && viewModel.Hints.length">
+                            <div class="col">
+                                <hints-table :hints="viewModel.Hints"></hints-table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script>const toKb = bytes => +(bytes / 1024.0).toFixed(3);
+
+const toMb = bytes => +(bytes / 1024.0 / 1024.0).toFixed(4);
+
+const initApp = (appContainer, viewModel) => {
+    // Chart data utilities
+    const createScenarioData = (timeLineHistory, scenarioName) =>
+        timeLineHistory
+            .filter(t => t.ScenarioStats.findIndex(x => x.ScenarioName === scenarioName) >= 0)
+            .map(t => ({
+                Duration: t.Duration,
+                ScenarioStats: t.ScenarioStats.find(x => x.ScenarioName === scenarioName)
+            }));
+
+    const createStepData = (timeLineHistory, scenarioName, stepName) =>
+        createScenarioData(timeLineHistory, scenarioName)
+            .filter(t => t.ScenarioStats.StepStats.findIndex(x => x.StepName === stepName) >= 0)
+            .map(t => ({
+                Duration: t.Duration,
+                ScenarioStats: t.ScenarioStats,
+                StepStats: t.ScenarioStats.StepStats.find(x => x.StepName === stepName)
+            }));
+
+    // Titles
+    const titles = {
+        charts: {
+            scenarioRequests: 'requests number',
+            scenarioStatusCodes: 'status codes',
+            latencyIndicators: 'latency indicators',
+            throughput: 'throughput',
+            latency: 'latency',
+            latencyDistribution: 'latency distribution',
+            dataTransfer: 'data transfer'
+        },
+        axisX: {
+            duration: 'duration',
+            latency: 'latency'
+        },
+        axisY: {
+            requests: 'requests',
+            latency: 'latency, requests',
+            loadSimulation: 'load simulation',
+            rps: 'RPS',
+            responseTime: 'response time, ms',
+            dataKb: 'data, KB',
+            dataMb: 'data, MB'
+        },
+        series: {
+            ok: 'ok',
+            failed: 'failed',
+            loadSimulation: 'load',
+            rps: 'RPS',
+            latency: {
+                low: 't < 800ms',
+                medium: '800ms < t < 1.2s',
+                high: 't > 1.2s',
+                min: 'min',
+                mean: 'mean',
+                max: 'max',
+                percentile50: '50%',
+                percentile75: '75%',
+                percentile95: '95%',
+                percentile99: '99%',
+                stdDev: 'stddev'
+            },
+            data: {
+                min: 'min',
+                mean: 'mean',
+                max: 'max',
+                percentile50: '50%',
+                percentile75: '75%',
+                percentile95: '95%',
+                percentile99: '99%',
+                stdDev: 'stddev'
+            }
+
+        }
+    };
+
+    // Theme
+    const theme = {
+        colors: {
+            yAxis: '#212121', //elegant-color-dark
+            xAxis: '#212121', //elegant-color-dark
+            stats: {
+                okCount: '#00b74a', // success
+                failedCount: '#ff3547', // danger
+                latency: {
+                    low: '#00b74a', // success
+                    medium: '#ffea00', // yellow accent-3
+                    high: '#ffa900' // warning
+                }
+            }
+        },
+        chart: {
+            title: {
+                fontSize: 14
+            },
+            legend: {
+                fontSize: 12
+            }
+        }
+    };
+
+    // Vue Components
+    Vue.component('no-data', {
+        template: "#no-data-template"
+    });
+
+    Vue.component('scenario-header', {
+        props: ['scenarioIndex', 'scenarioName'],
+        template: '#scenario-header-template'
+    });
+
+    Vue.component('node-info-table', {
+        props: ['nodeInfo'],
+        template: '#node-info-table-template'
+    });
+
+    Vue.component('scenario-stats', {
+        props: ['scenarioStats'],
+        template: '#scenario-stats-template'
+    });
+
+    Vue.component('scenario-stats-table', {
+        props: ['scenarioStats', 'failStats'],
+        template: '#scenario-stats-table-template',
+        data: function () {
+            return {
+                statsName: this.failStats ? "Fail" : "Ok"
+            }
+        }
+    });
+
+    Vue.component('scenario-stats-requests-number-table', {
+        props: ['scenarioStats', 'failStats'],
+        template: '#scenario-stats-requests-number-table-template',
+        data: function () {
+            return {
+                statsName: this.failStats ? "Fail" : "Ok"
+            }
+        }
+    });
+
+    Vue.component('scenario-stats-latency-table', {
+        props: ['scenarioStats', 'failStats'],
+        template: '#scenario-stats-latency-table-template',
+        data: function () {
+            return {
+                statsName: this.failStats ? "Fail" : "Ok"
+            }
+        }
+    });
+
+    Vue.component('scenario-stats-data-transfer-table', {
+        props: ['scenarioStats', 'failStats'],
+        template: '#scenario-stats-data-transfer-table-template',
+        data: function () {
+            return {
+                statsName: this.failStats ? "Fail" : "Ok"
+            }
+        }
+    });
+
+    const convertPluginStats = pluginsStats =>
+        pluginsStats.reduce((acc, dataset) => {
+            Object.entries(dataset.Tables).forEach(([key, value]) => {
+                const name = key;
+                const table = value;
+                const cols = table.Columns.map(col => col.Caption)
+                const colNames = table.Columns.map(col => col.ColumnName)
+                const rows = table.Rows.map(row => colNames.map(colName => row[colName]));
+
+                acc.push({name, cols, rows});
+            });
+            return acc;
+        }, []);
+
+    Vue.component('plugins-stats-table', {
+        props: ['pluginsStats'],
+        template: '#plugins-stats-table-template',
+        data: function() {
+            const tables = convertPluginStats(this.pluginsStats || [])
+
+            return {
+                tables
+            };
+        }
+    });
+
+    Vue.component('status-codes', {
+        props: ['statusCodes', 'okCount', 'failCount', 'show-charts'],
+        template: '#status-codes-template',
+        data: function() {
+            const okStatusCodes = this.statusCodes.filter(x => !x.IsError);
+            const failStatusCodes = this.statusCodes.filter(x => x.IsError);
+            const okStatusCodesCount = okStatusCodes.reduce((acc, val) => acc + val.Count, 0);
+            const failStatusCodesCount = failStatusCodes.reduce((acc, val) => acc + val.Count, 0);
+            const okNotAvailableStatusCodes = [];
+            const failNotAvailableStatusCodes = [];
+
+            if (okStatusCodesCount < this.okCount) {
+                okNotAvailableStatusCodes.push({
+                    StatusCode: 'ok (no status)',
+                    IsError: false,
+                    Message: '',
+                    Count: this.okCount - okStatusCodesCount
+                })
+            }
+
+            if (failStatusCodesCount < this.failCount) {
+                failNotAvailableStatusCodes.push({
+                    StatusCode: 'fail (no status)',
+                    IsError: true,
+                    Message: '',
+                    Count: this.failCount - failStatusCodesCount
+                })
+            }
+
+            const allStatusCodes =
+                okNotAvailableStatusCodes
+                    .concat(okStatusCodes)
+                    .concat(failNotAvailableStatusCodes)
+                    .concat(failStatusCodes);
+
+            return {
+                allStatusCodes
+            }
+        }
+    });
+
+    Vue.component('hints-table', {
+        props: ['hints'],
+        template: '#hints-table-template'
+    });
+
+    Vue.component('lazy-load', {
+        props: ['loadedViews', 'loadForView'],
+        template: '<div><slot v-if="loadedViews[loadForView]"></slot></div>'
+    });
+
+    Vue.component('chart', {
+        props: ['type', 'data', 'options'],
+        template: '<div ref="container"></div>',
+        mounted() {
+            google.charts.load('current', {'packages':['corechart', 'bar']});
+            google.charts.setOnLoadCallback(() => {
+                const chart = new google.visualization[this.type](this.$refs.container);
+                const dataTable = google.visualization.arrayToDataTable(this.data);
+                const draw = () => chart.draw(dataTable, this.options);
+                window.addEventListener('resize', () => setTimeout(draw, 0));
+                draw();
+            });
+        }
+    });
+
+    Vue.component('chart-scenario-requests', {
+        props: ['scenarioStats'],
+        template: '<chart class="chart chart-scenario-requests" :data="data" :options="options" type="PieChart"></chart>',
+        data: function() {
+            return {
+                data: [
+                    ['name', 'value'],
+                    [titles.series.ok,  this.scenarioStats.OkCount],
+                    [titles.series.failed, this.scenarioStats.FailCount]
+                ],
+                options: {
+                    title : titles.charts.scenarioRequests,
+                    titleTextStyle: theme.chart.title,
+                    legend: { position: 'bottom', alignment: 'center', textStyle: theme.chart.legend },
+                    colors: [theme.colors.stats.okCount, theme.colors.stats.failedCount]
+                }
+            }
+        }
+    });
+
+    Vue.component('chart-status-codes', {
+        props: ['status-codes'],
+        template: '<chart class="chart chart-scenario-status-codes" :data="data" :options="options" type="PieChart"></chart>',
+        data: function() {
+            const header =  [['name', 'value']];
+            const rows = this.statusCodes.map(statusCode => [statusCode.StatusCode.toString(), statusCode.Count]);
+            const data = header.concat(rows);
+
+            return {
+                data,
+                options: {
+                    title : titles.charts.scenarioStatusCodes,
+                    titleTextStyle: theme.chart.title,
+                    legend: { position: 'bottom', alignment: 'center', textStyle: theme.chart.legend }
+                }
+            }
+        }
+    });
+
+    Vue.component('chart-scenario-latency-indicators', {
+        props: ['scenarioStats'],
+        template: '<chart class="chart chart-scenario-latency-indicators" :data="data" :options="options" type="ColumnChart"></chart>',
+        data: function() {
+            return {
+                data: [
+                    ['name', 'value', { role: 'style' }],
+                    [titles.series.latency.low, this.scenarioStats.LatencyCount.LessOrEq800, theme.colors.stats.latency.low],
+                    [titles.series.latency.medium, this.scenarioStats.LatencyCount.More800Less1200, theme.colors.stats.latency.medium],
+                    [titles.series.latency.high, this.scenarioStats.LatencyCount.MoreOrEq1200, theme.colors.stats.latency.high],
+                    [titles.series.failed, this.scenarioStats.FailCount, theme.colors.stats.failedCount]
+                ],
+                options: {
+                    title : titles.charts.latencyIndicators,
+                    titleTextStyle: theme.chart.title,
+                    hAxis: {title: titles.axisX.latency},
+                    vAxis: {title: titles.axisY.requests},
+                    legend: { position: 'none' },
+                    bar: {groupWidth: '25%'},
+                    animation: {
+                        startup: true,
+                        duration: 500,
+                        easing: 'out'
+                    }
+                }
+            }
+        }
+    });
+
+    Vue.component('chart-scenario-latency-distribution', {
+        props: ['timeLineHistory', 'scenarioName'],
+        template: '<chart class="chart chart-timeline chart-timeline-scenario-load" :data="data" :options="options" type="ComboChart"></chart>',
+        data: function() {
+            const header = [[titles.axisX.duration, titles.series.loadSimulation, titles.series.latency.low, titles.series.latency.medium, titles.series.latency.high]];
+            const timeLineHistory = createScenarioData(this.timeLineHistory, this.scenarioName);
+            const rows = timeLineHistory
+                .map((t, i) => {
+                    let latencyCount = t.ScenarioStats.LatencyCount;
+
+                    Object.entries(latencyCount).forEach(([key, value]) => {
+                        latencyCount[key] = value;
+                    });
+
+                    const result = [
+                        t.Duration,
+                        t.ScenarioStats.LoadSimulationStats.Value,
+                        latencyCount.LessOrEq800,
+                        latencyCount.More800Less1200,
+                        latencyCount.MoreOrEq1200
+                    ];
+
+                    return result;
+                });
+
+            const data = header.concat(rows);
+
+            return {
+                data,
+                options: {
+                    title : titles.charts.latencyDistribution,
+                    titleTextStyle: theme.chart.title,
+                    hAxis: {title: titles.axisX.duration},
+                    vAxes: {
+                        0: {title: titles.axisY.latency},
+                        1: {title: titles.axisY.loadSimulation}
+                    },
+                    legend: { position: 'bottom', alignment: 'center', textStyle: theme.chart.legend },
+                    seriesType: 'bars',
+                    isStacked: true,
+                    series: {
+                        0: {type: 'line', targetAxisIndex: 1},
+                        1: {color: theme.colors.stats.latency.low},
+                        2: {color: theme.colors.stats.latency.medium},
+                        3: {color: theme.colors.stats.latency.high},
+                    },
+                    animation: {
+                        startup: true,
+                        duration: 500,
+                        easing: 'out'
+                    }
+                }
+            }
+        }
+    });
+
+    Vue.component('chart-timeline-step-throughput', {
+        props: ['timeLineHistory', 'scenarioName', 'stepName'],
+        template: '<chart class="chart chart-timeline chart-timeline-step-throughput" :data="data" :options="options" type="LineChart"></chart>',
+        data: function() {
+            const header = [[titles.axisX.duration, titles.series.loadSimulation, titles.series.rps]];
+
+            const rows =
+                createStepData(this.timeLineHistory, this.scenarioName, this.stepName)
+                    .map(x => [
+                        x.Duration,
+                        x.ScenarioStats.LoadSimulationStats.Value,
+                        x.StepStats.Ok.Request.RPS
+                    ]);
+
+            const data = header.concat(rows);
+
+            return {
+                data,
+                options: {
+                    title : titles.charts.throughput,
+                    hAxis: {title: titles.axisX.duration},
+                    vAxes: {
+                        0: {title: titles.axisY.rps},
+                        1: {title: titles.axisY.loadSimulation}
+                    },
+                    legend: { position: 'bottom', alignment: 'center', textStyle: theme.chart.legend },
+                    series: {
+                        0: {type: 'line', targetAxisIndex: 1},
+                    },
+                    animation: {
+                        startup: true,
+                        duration: 500,
+                        easing: 'out'
+                    }
+                }
+            }
+        }
+    });
+
+    Vue.component('chart-timeline-step-latency', {
+        props: ['timeLineHistory', 'scenarioName', 'stepName'],
+        template: '<chart class="chart chart-timeline chart-timeline-step-latency" :data="data" :options="options" type="ComboChart"></chart>',
+        data: function() {
+            const header = [[
+                titles.axisX.duration,
+                titles.series.loadSimulation,
+                titles.series.latency.min,
+                titles.series.latency.max,
+                titles.series.latency.percentile50,
+                titles.series.latency.percentile75,
+                titles.series.latency.percentile99
+            ]];
+
+            const rows =
+                createStepData(this.timeLineHistory, this.scenarioName, this.stepName)
+                    .map(x => [
+                        x.Duration,
+                        x.ScenarioStats.LoadSimulationStats.Value,
+                        x.StepStats.Ok.Latency.MinMs,
+                        x.StepStats.Ok.Latency.MaxMs,
+                        x.StepStats.Ok.Latency.Percent50,
+                        x.StepStats.Ok.Latency.Percent75,
+                        x.StepStats.Ok.Latency.Percent99
+                    ]);
+
+            const data = header.concat(rows);
+
+            return {
+                data,
+                options: {
+                    title : titles.charts.latency,
+                    titleTextStyle: theme.chart.title,
+                    hAxis: {title: titles.axisX.duration},
+                    vAxes: {
+                        0: {title: titles.axisY.latency},
+                        1: {title: titles.axisY.loadSimulation}
+                    },
+                    legend: { position: 'bottom', alignment: 'center', textStyle: theme.chart.legend },
+                    series: {
+                        0: {type: 'line', targetAxisIndex: 1},
+                    },
+                    animation: {
+                        startup: true,
+                        duration: 500,
+                        easing: 'out'
+                    }
+                }
+            }
+        }
+    });
+
+    Vue.component('chart-timeline-step-data-transfer', {
+        props: ['timeLineHistory', 'scenarioName', 'stepName'],
+        template: '<chart class="chart chart-timeline chart-timeline-step-data-transfer" :data="data" :options="options" type="ComboChart"></chart>',
+        data: function() {
+            const header = [[
+                titles.axisX.duration,
+                titles.series.loadSimulation,
+                titles.series.data.min,
+                titles.series.data.max,
+                titles.series.data.percentile50,
+                titles.series.data.percentile75,
+                titles.series.data.percentile99
+            ]];
+
+            const rows =
+                createStepData(this.timeLineHistory, this.scenarioName, this.stepName)
+                    .map(x => [
+                        x.Duration,
+                        x.ScenarioStats.LoadSimulationStats.Value,
+                        toKb(x.StepStats.Ok.DataTransfer.MinBytes),
+                        toKb(x.StepStats.Ok.DataTransfer.MaxBytes),
+                        toKb(x.StepStats.Ok.DataTransfer.Percent50),
+                        toKb(x.StepStats.Ok.DataTransfer.Percent75),
+                        toKb(x.StepStats.Ok.DataTransfer.Percent99)
+                    ]);
+
+            const data = header.concat(rows);
+
+            return {
+                data,
+                options: {
+                    title : titles.charts.dataTransfer,
+                    titleTextStyle: theme.chart.title,
+                    hAxis: {title: titles.axisX.duration},
+                    vAxes: {
+                        0: {title: titles.axisY.dataKb},
+                        1: {title: titles.axisY.loadSimulation}
+                    },
+                    legend: { position: 'bottom', alignment: 'center', textStyle: theme.chart.legend },
+                    series: {
+                        0: {type: 'line', targetAxisIndex: 1},
+                    },
+                    animation: {
+                        startup: true,
+                        duration: 500,
+                        easing: 'out'
+                    }
+                }
+            }
+        }
+    });
+
+    // Vue Application
+    const app = new Vue({
+        el: appContainer,
+        data: {
+            viewModel,
+            sideBarActive: true,
+            currentView: 'test-suite',
+            loadedViews: {},
+            showCharts: true
+        },
+        computed: {
+            showChartsSwitcher: function () {
+                return this.currentView === 'test-suite';
+            }
+        },
+        methods: {
+            toggleSideBar: function () {
+                this.sideBarActive = !this.sideBarActive;
+            },
+            selectView: function (view) {
+                this.currentView = view;
+
+                if (!this.loadedViews[view])
+                    this.$set(this.loadedViews, view, true);
+            }
+        }
+    });
+};
+</script>
+
+
+    <script>
+        // example of view model structure can be found in data.js
+const viewModel = {"FinalStats":{"RequestCount":2615,"OkCount":2016,"FailCount":599,"AllBytes":12880492,"ScenarioStats":[{"ScenarioName":"compare_keybased_vs_offset","RequestCount":2615,"OkCount":2016,"FailCount":599,"AllBytes":12880492,"StepStats":[{"StepName":"key_based_pagination","Ok":{"Request":{"Count":1182,"RPS":9.8},"Latency":{"MinMs":14.67,"MeanMs":482.28,"MaxMs":1030.52,"Percent50":393.98,"Percent75":852.99,"Percent95":992.77,"Percent99":1014.78,"StdDev":350.42,"LatencyCount":{"LessOrEq800":837,"More800Less1200":345,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":17,"MeanBytes":81,"MaxBytes":116,"Percent50":91,"Percent75":97,"Percent95":101,"Percent99":102,"StdDev":20.76,"AllBytes":95813},"StatusCodes":[{"Count@":1182,"StatusCode":200,"IsError":false,"Message":"","Count":1182}]},"Fail":{"Request":{"Count":268,"RPS":2.2},"Latency":{"MinMs":994.11,"MeanMs":1019.87,"MaxMs":1067.88,"Percent50":1019.39,"Percent75":1027.58,"Percent95":1040.38,"Percent99":1055.74,"StdDev":12.39,"LatencyCount":{"LessOrEq800":0,"More800Less1200":268,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":0,"MeanBytes":0,"MaxBytes":0,"Percent50":0,"Percent75":0,"Percent95":0,"Percent99":0,"StdDev":0.0,"AllBytes":0},"StatusCodes":[{"Count@":268,"StatusCode":-100,"IsError":true,"Message":"step timeout","Count":268}]}},{"StepName":"skipNtake_based_pagination","Ok":{"Request":{"Count":834,"RPS":7.0},"Latency":{"MinMs":19.74,"MeanMs":423.57,"MaxMs":1060.1,"Percent50":302.59,"Percent75":702.46,"Percent95":986.11,"Percent99":1021.44,"StdDev":312.8,"LatencyCount":{"LessOrEq800":662,"More800Less1200":172,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":4403,"MeanBytes":15329,"MaxBytes":23166,"Percent50":17839,"Percent75":19087,"Percent95":20879,"Percent99":21775,"StdDev":5339.35,"AllBytes":12784679},"StatusCodes":[{"Count@":834,"StatusCode":200,"IsError":false,"Message":"","Count":834}]},"Fail":{"Request":{"Count":331,"RPS":2.8},"Latency":{"MinMs":531.93,"MeanMs":1021.95,"MaxMs":1090.57,"Percent50":1020.93,"Percent75":1034.24,"Percent95":1054.72,"Percent99":1079.3,"StdDev":31.87,"LatencyCount":{"LessOrEq800":1,"More800Less1200":330,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":0,"MeanBytes":0,"MaxBytes":0,"Percent50":0,"Percent75":0,"Percent95":0,"Percent99":0,"StdDev":0.0,"AllBytes":0},"StatusCodes":[{"Count@":330,"StatusCode":-100,"IsError":true,"Message":"step timeout","Count":330},{"Count@":1,"StatusCode":-101,"IsError":true,"Message":"step unhandled exception: One or more errors occurred. (Specified argument was out of the range of valid values. (Parameter 'count'))","Count":1}]}}],"LatencyCount":{"LessOrEq800":1500,"More800Less1200":1115,"MoreOrEq1200":0},"LoadSimulationStats":{"SimulationName":"inject_per_sec","Value":32},"StatusCodes":[{"Count@":1,"StatusCode":-101,"IsError":true,"Message":"step unhandled exception: One or more errors occurred. (Specified argument was out of the range of valid values. (Parameter 'count'))","Count":1},{"Count@":598,"StatusCode":-100,"IsError":true,"Message":"step timeout","Count":598},{"Count@":2016,"StatusCode":200,"IsError":false,"Message":"","Count":2016}],"CurrentOperation":5,"Duration":"00:02:00"}],"PluginStats":[],"NodeInfo":{"MachineName":"LAPTOP-74EVPB8O","NodeType":{"Case":"SingleNode"},"CurrentOperation":5,"OS":{"Platform":2,"ServicePack":"","Version":"10.0.22000.0","VersionString":"Microsoft Windows NT 10.0.22000.0"},"DotNetVersion":".NETCoreApp,Version=v6.0","Processor":"Intel64 Family 6 Model 165 Stepping 2, GenuineIntel","CoresCount":8,"NBomberVersion":"2.1.5"},"TestInfo":{"SessionId":"2022-05-08_17.53.25_session_586f961d","TestSuite":"nbomber_default_test_suite_name","TestName":"nbomber_default_test_name"},"ReportFiles":[],"Duration":"00:02:00"},"TimeLineHistory":[{"ScenarioStats":[{"ScenarioName":"compare_keybased_vs_offset","RequestCount":18,"OkCount":18,"FailCount":0,"AllBytes":139621,"StepStats":[{"StepName":"key_based_pagination","Ok":{"Request":{"Count":9,"RPS":0.9},"Latency":{"MinMs":14.902,"MeanMs":25.86,"MaxMs":36.142,"Percent50":28.431,"Percent75":31.375,"Percent95":36.159,"Percent99":36.159,"StdDev":7.898328374479698,"LatencyCount":{"LessOrEq800":9,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":47,"MeanBytes":77,"MaxBytes":99,"Percent50":84,"Percent75":97,"Percent95":99,"Percent99":99,"StdDev":21.27074151139176,"AllBytes":696},"StatusCodes":[{"Count@":9,"StatusCode":200,"IsError":false,"Message":"","Count":9}]},"Fail":{"Request":{"Count":0,"RPS":0.0},"Latency":{"MinMs":0.0,"MeanMs":0.0,"MaxMs":0.0,"Percent50":0.0,"Percent75":0.0,"Percent95":0.0,"Percent99":0.0,"StdDev":0.0,"LatencyCount":{"LessOrEq800":0,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":0,"MeanBytes":0,"MaxBytes":0,"Percent50":0,"Percent75":0,"Percent95":0,"Percent99":0,"StdDev":0.0,"AllBytes":0},"StatusCodes":[]}},{"StepName":"skipNtake_based_pagination","Ok":{"Request":{"Count":9,"RPS":0.9},"Latency":{"MinMs":19.745,"MeanMs":43.49155555555556,"MaxMs":56.77,"Percent50":47.231,"Percent75":54.591,"Percent95":56.799,"Percent99":56.799,"StdDev":12.765541457038083,"LatencyCount":{"LessOrEq800":9,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":5534,"MeanBytes":15436,"MaxBytes":20148,"Percent50":18095,"Percent75":18719,"Percent95":20159,"Percent99":20159,"StdDev":5054.445504506374,"AllBytes":138925},"StatusCodes":[{"Count@":9,"StatusCode":200,"IsError":false,"Message":"","Count":9}]},"Fail":{"Request":{"Count":0,"RPS":0.0},"Latency":{"MinMs":0.0,"MeanMs":0.0,"MaxMs":0.0,"Percent50":0.0,"Percent75":0.0,"Percent95":0.0,"Percent99":0.0,"StdDev":0.0,"LatencyCount":{"LessOrEq800":0,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":0,"MeanBytes":0,"MaxBytes":0,"Percent50":0,"Percent75":0,"Percent95":0,"Percent99":0,"StdDev":0.0,"AllBytes":0},"StatusCodes":[]}}],"LatencyCount":{"LessOrEq800":18,"More800Less1200":0,"MoreOrEq1200":0},"LoadSimulationStats":{"SimulationName":"inject_per_sec","Value":1},"StatusCodes":[{"Count@":18,"StatusCode":200,"IsError":false,"Message":"","Count":18}],"CurrentOperation":3,"Duration":"00:00:09.9963421"}],"Duration":"00:00:09.9963421"},{"ScenarioStats":[{"ScenarioName":"compare_keybased_vs_offset","RequestCount":20,"OkCount":20,"FailCount":0,"AllBytes":114076,"StepStats":[{"StepName":"key_based_pagination","Ok":{"Request":{"Count":10,"RPS":1.0},"Latency":{"MinMs":14.67,"MeanMs":27.732400000000002,"MaxMs":34.246,"Percent50":32.575,"Percent75":33.247,"Percent95":34.271,"Percent99":34.271,"StdDev":8.227130036653124,"LatencyCount":{"LessOrEq800":10,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":49,"MeanBytes":81,"MaxBytes":98,"Percent50":93,"Percent75":97,"Percent95":98,"Percent99":98,"StdDev":21.232286735064594,"AllBytes":813},"StatusCodes":[{"Count@":10,"StatusCode":200,"IsError":false,"Message":"","Count":10}]},"Fail":{"Request":{"Count":0,"RPS":0.0},"Latency":{"MinMs":0.0,"MeanMs":0.0,"MaxMs":0.0,"Percent50":0.0,"Percent75":0.0,"Percent95":0.0,"Percent99":0.0,"StdDev":0.0,"LatencyCount":{"LessOrEq800":0,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":0,"MeanBytes":0,"MaxBytes":0,"Percent50":0,"Percent75":0,"Percent95":0,"Percent99":0,"StdDev":0.0,"AllBytes":0},"StatusCodes":[]}},{"StepName":"skipNtake_based_pagination","Ok":{"Request":{"Count":10,"RPS":1.0},"Latency":{"MinMs":20.73,"MeanMs":28.982400000000002,"MaxMs":43.949,"Percent50":22.415,"Percent75":36.415,"Percent95":43.967,"Percent99":43.967,"StdDev":9.280998429048461,"LatencyCount":{"LessOrEq800":10,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":6554,"MeanBytes":11327,"MaxBytes":18123,"Percent50":7819,"Percent75":17023,"Percent95":18127,"Percent99":18127,"StdDev":4823.113189631775,"AllBytes":113263},"StatusCodes":[{"Count@":10,"StatusCode":200,"IsError":false,"Message":"","Count":10}]},"Fail":{"Request":{"Count":0,"RPS":0.0},"Latency":{"MinMs":0.0,"MeanMs":0.0,"MaxMs":0.0,"Percent50":0.0,"Percent75":0.0,"Percent95":0.0,"Percent99":0.0,"StdDev":0.0,"LatencyCount":{"LessOrEq800":0,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":0,"MeanBytes":0,"MaxBytes":0,"Percent50":0,"Percent75":0,"Percent95":0,"Percent99":0,"StdDev":0.0,"AllBytes":0},"StatusCodes":[]}}],"LatencyCount":{"LessOrEq800":20,"More800Less1200":0,"MoreOrEq1200":0},"LoadSimulationStats":{"SimulationName":"inject_per_sec","Value":1},"StatusCodes":[{"Count@":20,"StatusCode":200,"IsError":false,"Message":"","Count":20}],"CurrentOperation":3,"Duration":"00:00:19.9908586"}],"Duration":"00:00:19.9908586"},{"ScenarioStats":[{"ScenarioName":"compare_keybased_vs_offset","RequestCount":20,"OkCount":20,"FailCount":0,"AllBytes":141567,"StepStats":[{"StepName":"key_based_pagination","Ok":{"Request":{"Count":10,"RPS":1.0},"Latency":{"MinMs":15.138,"MeanMs":29.9828,"MaxMs":32.782,"Percent50":31.503,"Percent75":32.447,"Percent95":32.799,"Percent99":32.799,"StdDev":5.012437666445339,"LatencyCount":{"LessOrEq800":10,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":47,"MeanBytes":85,"MaxBytes":98,"Percent50":93,"Percent75":97,"Percent95":98,"Percent99":98,"StdDev":15.078461459976612,"AllBytes":858},"StatusCodes":[{"Count@":10,"StatusCode":200,"IsError":false,"Message":"","Count":10}]},"Fail":{"Request":{"Count":0,"RPS":0.0},"Latency":{"MinMs":0.0,"MeanMs":0.0,"MaxMs":0.0,"Percent50":0.0,"Percent75":0.0,"Percent95":0.0,"Percent99":0.0,"StdDev":0.0,"LatencyCount":{"LessOrEq800":0,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":0,"MeanBytes":0,"MaxBytes":0,"Percent50":0,"Percent75":0,"Percent95":0,"Percent99":0,"StdDev":0.0,"AllBytes":0},"StatusCodes":[]}},{"StepName":"skipNtake_based_pagination","Ok":{"Request":{"Count":10,"RPS":1.0},"Latency":{"MinMs":20.276,"MeanMs":39.584,"MaxMs":47.304,"Percent50":42.911,"Percent75":45.535,"Percent95":47.327,"Percent99":47.327,"StdDev":9.425801525599825,"LatencyCount":{"LessOrEq800":10,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":8011,"MeanBytes":14071,"MaxBytes":19733,"Percent50":14767,"Percent75":18831,"Percent95":19743,"Percent99":19743,"StdDev":4323.899207890951,"AllBytes":140709},"StatusCodes":[{"Count@":10,"StatusCode":200,"IsError":false,"Message":"","Count":10}]},"Fail":{"Request":{"Count":0,"RPS":0.0},"Latency":{"MinMs":0.0,"MeanMs":0.0,"MaxMs":0.0,"Percent50":0.0,"Percent75":0.0,"Percent95":0.0,"Percent99":0.0,"StdDev":0.0,"LatencyCount":{"LessOrEq800":0,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":0,"MeanBytes":0,"MaxBytes":0,"Percent50":0,"Percent75":0,"Percent95":0,"Percent99":0,"StdDev":0.0,"AllBytes":0},"StatusCodes":[]}}],"LatencyCount":{"LessOrEq800":20,"More800Less1200":0,"MoreOrEq1200":0},"LoadSimulationStats":{"SimulationName":"inject_per_sec","Value":1},"StatusCodes":[{"Count@":20,"StatusCode":200,"IsError":false,"Message":"","Count":20}],"CurrentOperation":3,"Duration":"00:00:29.9987609"}],"Duration":"00:00:29.9987609"},{"ScenarioStats":[{"ScenarioName":"compare_keybased_vs_offset","RequestCount":74,"OkCount":74,"FailCount":0,"AllBytes":571239,"StepStats":[{"StepName":"key_based_pagination","Ok":{"Request":{"Count":37,"RPS":3.7},"Latency":{"MinMs":20.682,"MeanMs":67.09318918918919,"MaxMs":98.99,"Percent50":74.943,"Percent75":82.367,"Percent95":87.423,"Percent99":99.007,"StdDev":21.299163670724617,"LatencyCount":{"LessOrEq800":37,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":49,"MeanBytes":85,"MaxBytes":101,"Percent50":97,"Percent75":99,"Percent95":101,"Percent99":101,"StdDev":18.964886241509507,"AllBytes":3175},"StatusCodes":[{"Count@":37,"StatusCode":200,"IsError":false,"Message":"","Count":37}]},"Fail":{"Request":{"Count":0,"RPS":0.0},"Latency":{"MinMs":0.0,"MeanMs":0.0,"MaxMs":0.0,"Percent50":0.0,"Percent75":0.0,"Percent95":0.0,"Percent99":0.0,"StdDev":0.0,"LatencyCount":{"LessOrEq800":0,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":0,"MeanBytes":0,"MaxBytes":0,"Percent50":0,"Percent75":0,"Percent95":0,"Percent99":0,"StdDev":0.0,"AllBytes":0},"StatusCodes":[]}},{"StepName":"skipNtake_based_pagination","Ok":{"Request":{"Count":37,"RPS":3.7},"Latency":{"MinMs":32.175,"MeanMs":83.74183783783783,"MaxMs":157.075,"Percent50":95.551,"Percent75":106.239,"Percent95":133.887,"Percent99":157.183,"StdDev":35.703619749500845,"LatencyCount":{"LessOrEq800":37,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":5447,"MeanBytes":15353,"MaxBytes":20773,"Percent50":17919,"Percent75":19039,"Percent95":19903,"Percent99":20783,"StdDev":5217.877455674839,"AllBytes":568064},"StatusCodes":[{"Count@":37,"StatusCode":200,"IsError":false,"Message":"","Count":37}]},"Fail":{"Request":{"Count":0,"RPS":0.0},"Latency":{"MinMs":0.0,"MeanMs":0.0,"MaxMs":0.0,"Percent50":0.0,"Percent75":0.0,"Percent95":0.0,"Percent99":0.0,"StdDev":0.0,"LatencyCount":{"LessOrEq800":0,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":0,"MeanBytes":0,"MaxBytes":0,"Percent50":0,"Percent75":0,"Percent95":0,"Percent99":0,"StdDev":0.0,"AllBytes":0},"StatusCodes":[]}}],"LatencyCount":{"LessOrEq800":74,"More800Less1200":0,"MoreOrEq1200":0},"LoadSimulationStats":{"SimulationName":"inject_per_sec","Value":4},"StatusCodes":[{"Count@":74,"StatusCode":200,"IsError":false,"Message":"","Count":74}],"CurrentOperation":3,"Duration":"00:00:39.9955600"}],"Duration":"00:00:39.9955600"},{"ScenarioStats":[{"ScenarioName":"compare_keybased_vs_offset","RequestCount":80,"OkCount":80,"FailCount":0,"AllBytes":613722,"StepStats":[{"StepName":"key_based_pagination","Ok":{"Request":{"Count":40,"RPS":4.0},"Latency":{"MinMs":17.751,"MeanMs":63.9568,"MaxMs":95.19,"Percent50":71.103,"Percent75":76.607,"Percent95":86.271,"Percent99":95.231,"StdDev":20.0733411110358,"LatencyCount":{"LessOrEq800":40,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":45,"MeanBytes":82,"MaxBytes":102,"Percent50":91,"Percent75":97,"Percent95":100,"Percent99":102,"StdDev":19.562400159489634,"AllBytes":3310},"StatusCodes":[{"Count@":40,"StatusCode":200,"IsError":false,"Message":"","Count":40}]},"Fail":{"Request":{"Count":0,"RPS":0.0},"Latency":{"MinMs":0.0,"MeanMs":0.0,"MaxMs":0.0,"Percent50":0.0,"Percent75":0.0,"Percent95":0.0,"Percent99":0.0,"StdDev":0.0,"LatencyCount":{"LessOrEq800":0,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":0,"MeanBytes":0,"MaxBytes":0,"Percent50":0,"Percent75":0,"Percent95":0,"Percent99":0,"StdDev":0.0,"AllBytes":0},"StatusCodes":[]}},{"StepName":"skipNtake_based_pagination","Ok":{"Request":{"Count":40,"RPS":4.0},"Latency":{"MinMs":22.038,"MeanMs":88.6082,"MaxMs":155.734,"Percent50":92.863,"Percent75":123.135,"Percent95":140.799,"Percent99":155.775,"StdDev":38.54373069592511,"LatencyCount":{"LessOrEq800":40,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":5577,"MeanBytes":15261,"MaxBytes":21482,"Percent50":18127,"Percent75":19327,"Percent95":20367,"Percent99":21487,"StdDev":5606.871436906682,"AllBytes":610412},"StatusCodes":[{"Count@":40,"StatusCode":200,"IsError":false,"Message":"","Count":40}]},"Fail":{"Request":{"Count":0,"RPS":0.0},"Latency":{"MinMs":0.0,"MeanMs":0.0,"MaxMs":0.0,"Percent50":0.0,"Percent75":0.0,"Percent95":0.0,"Percent99":0.0,"StdDev":0.0,"LatencyCount":{"LessOrEq800":0,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":0,"MeanBytes":0,"MaxBytes":0,"Percent50":0,"Percent75":0,"Percent95":0,"Percent99":0,"StdDev":0.0,"AllBytes":0},"StatusCodes":[]}}],"LatencyCount":{"LessOrEq800":80,"More800Less1200":0,"MoreOrEq1200":0},"LoadSimulationStats":{"SimulationName":"inject_per_sec","Value":4},"StatusCodes":[{"Count@":80,"StatusCode":200,"IsError":false,"Message":"","Count":80}],"CurrentOperation":3,"Duration":"00:00:50.0086007"}],"Duration":"00:00:50.0086007"},{"ScenarioStats":[{"ScenarioName":"compare_keybased_vs_offset","RequestCount":80,"OkCount":80,"FailCount":0,"AllBytes":629980,"StepStats":[{"StepName":"key_based_pagination","Ok":{"Request":{"Count":40,"RPS":4.0},"Latency":{"MinMs":16.354,"MeanMs":61.7483,"MaxMs":101.713,"Percent50":69.951,"Percent75":75.007,"Percent95":82.559,"Percent99":101.759,"StdDev":21.856853046813484,"LatencyCount":{"LessOrEq800":40,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":47,"MeanBytes":82,"MaxBytes":101,"Percent50":85,"Percent75":97,"Percent95":100,"Percent99":101,"StdDev":19.121976885249076,"AllBytes":3280},"StatusCodes":[{"Count@":40,"StatusCode":200,"IsError":false,"Message":"","Count":40}]},"Fail":{"Request":{"Count":0,"RPS":0.0},"Latency":{"MinMs":0.0,"MeanMs":0.0,"MaxMs":0.0,"Percent50":0.0,"Percent75":0.0,"Percent95":0.0,"Percent99":0.0,"StdDev":0.0,"LatencyCount":{"LessOrEq800":0,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":0,"MeanBytes":0,"MaxBytes":0,"Percent50":0,"Percent75":0,"Percent95":0,"Percent99":0,"StdDev":0.0,"AllBytes":0},"StatusCodes":[]}},{"StepName":"skipNtake_based_pagination","Ok":{"Request":{"Count":40,"RPS":4.0},"Latency":{"MinMs":30.722,"MeanMs":87.7018,"MaxMs":129.879,"Percent50":88.831,"Percent75":106.175,"Percent95":122.559,"Percent99":129.919,"StdDev":25.05292164918096,"LatencyCount":{"LessOrEq800":40,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":5283,"MeanBytes":15668,"MaxBytes":21333,"Percent50":17695,"Percent75":19055,"Percent95":20959,"Percent99":21343,"StdDev":5217.703648157876,"AllBytes":626700},"StatusCodes":[{"Count@":40,"StatusCode":200,"IsError":false,"Message":"","Count":40}]},"Fail":{"Request":{"Count":0,"RPS":0.0},"Latency":{"MinMs":0.0,"MeanMs":0.0,"MaxMs":0.0,"Percent50":0.0,"Percent75":0.0,"Percent95":0.0,"Percent99":0.0,"StdDev":0.0,"LatencyCount":{"LessOrEq800":0,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":0,"MeanBytes":0,"MaxBytes":0,"Percent50":0,"Percent75":0,"Percent95":0,"Percent99":0,"StdDev":0.0,"AllBytes":0},"StatusCodes":[]}}],"LatencyCount":{"LessOrEq800":80,"More800Less1200":0,"MoreOrEq1200":0},"LoadSimulationStats":{"SimulationName":"inject_per_sec","Value":4},"StatusCodes":[{"Count@":80,"StatusCode":200,"IsError":false,"Message":"","Count":80}],"CurrentOperation":3,"Duration":"00:00:59.9977736"}],"Duration":"00:00:59.9977736"},{"ScenarioStats":[{"ScenarioName":"compare_keybased_vs_offset","RequestCount":224,"OkCount":224,"FailCount":0,"AllBytes":1910141,"StepStats":[{"StepName":"key_based_pagination","Ok":{"Request":{"Count":112,"RPS":11.2},"Latency":{"MinMs":21.229,"MeanMs":168.53814285714287,"MaxMs":253.514,"Percent50":185.343,"Percent75":210.559,"Percent95":231.039,"Percent99":250.623,"StdDev":58.284176975349624,"LatencyCount":{"LessOrEq800":112,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":49,"MeanBytes":85,"MaxBytes":102,"Percent50":95,"Percent75":98,"Percent95":101,"Percent99":102,"StdDev":18.245576676000017,"AllBytes":9565},"StatusCodes":[{"Count@":112,"StatusCode":200,"IsError":false,"Message":"","Count":112}]},"Fail":{"Request":{"Count":0,"RPS":0.0},"Latency":{"MinMs":0.0,"MeanMs":0.0,"MaxMs":0.0,"Percent50":0.0,"Percent75":0.0,"Percent95":0.0,"Percent99":0.0,"StdDev":0.0,"LatencyCount":{"LessOrEq800":0,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":0,"MeanBytes":0,"MaxBytes":0,"Percent50":0,"Percent75":0,"Percent95":0,"Percent99":0,"StdDev":0.0,"AllBytes":0},"StatusCodes":[]}},{"StepName":"skipNtake_based_pagination","Ok":{"Request":{"Count":112,"RPS":11.2},"Latency":{"MinMs":41.87,"MeanMs":264.32928571428573,"MaxMs":430.92,"Percent50":282.111,"Percent75":316.159,"Percent95":350.719,"Percent99":427.007,"StdDev":77.24605230821885,"LatencyCount":{"LessOrEq800":112,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":6022,"MeanBytes":16969,"MaxBytes":21729,"Percent50":18399,"Percent75":19439,"Percent95":21183,"Percent99":21679,"StdDev":4352.922039894053,"AllBytes":1900576},"StatusCodes":[{"Count@":112,"StatusCode":200,"IsError":false,"Message":"","Count":112}]},"Fail":{"Request":{"Count":0,"RPS":0.0},"Latency":{"MinMs":0.0,"MeanMs":0.0,"MaxMs":0.0,"Percent50":0.0,"Percent75":0.0,"Percent95":0.0,"Percent99":0.0,"StdDev":0.0,"LatencyCount":{"LessOrEq800":0,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":0,"MeanBytes":0,"MaxBytes":0,"Percent50":0,"Percent75":0,"Percent95":0,"Percent99":0,"StdDev":0.0,"AllBytes":0},"StatusCodes":[]}}],"LatencyCount":{"LessOrEq800":224,"More800Less1200":0,"MoreOrEq1200":0},"LoadSimulationStats":{"SimulationName":"inject_per_sec","Value":12},"StatusCodes":[{"Count@":224,"StatusCode":200,"IsError":false,"Message":"","Count":224}],"CurrentOperation":3,"Duration":"00:01:09.9947017"}],"Duration":"00:01:09.9947017"},{"ScenarioStats":[{"ScenarioName":"compare_keybased_vs_offset","RequestCount":240,"OkCount":240,"FailCount":0,"AllBytes":2001452,"StepStats":[{"StepName":"key_based_pagination","Ok":{"Request":{"Count":120,"RPS":12.0},"Latency":{"MinMs":38.879,"MeanMs":158.29306666666668,"MaxMs":256.908,"Percent50":181.503,"Percent75":199.423,"Percent95":226.175,"Percent99":253.951,"StdDev":57.937964690367075,"LatencyCount":{"LessOrEq800":120,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":33,"MeanBytes":82,"MaxBytes":116,"Percent50":94,"Percent75":99,"Percent95":101,"Percent99":103,"StdDev":21.772912580135493,"AllBytes":9850},"StatusCodes":[{"Count@":120,"StatusCode":200,"IsError":false,"Message":"","Count":120}]},"Fail":{"Request":{"Count":0,"RPS":0.0},"Latency":{"MinMs":0.0,"MeanMs":0.0,"MaxMs":0.0,"Percent50":0.0,"Percent75":0.0,"Percent95":0.0,"Percent99":0.0,"StdDev":0.0,"LatencyCount":{"LessOrEq800":0,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":0,"MeanBytes":0,"MaxBytes":0,"Percent50":0,"Percent75":0,"Percent95":0,"Percent99":0,"StdDev":0.0,"AllBytes":0},"StatusCodes":[]}},{"StepName":"skipNtake_based_pagination","Ok":{"Request":{"Count":120,"RPS":12.0},"Latency":{"MinMs":57.675,"MeanMs":263.4113333333333,"MaxMs":382.415,"Percent50":267.775,"Percent75":305.663,"Percent95":344.319,"Percent99":364.799,"StdDev":63.38772709462151,"LatencyCount":{"LessOrEq800":120,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":6046,"MeanBytes":16597,"MaxBytes":22278,"Percent50":18351,"Percent75":19423,"Percent95":21087,"Percent99":21631,"StdDev":4769.407012727637,"AllBytes":1991602},"StatusCodes":[{"Count@":120,"StatusCode":200,"IsError":false,"Message":"","Count":120}]},"Fail":{"Request":{"Count":0,"RPS":0.0},"Latency":{"MinMs":0.0,"MeanMs":0.0,"MaxMs":0.0,"Percent50":0.0,"Percent75":0.0,"Percent95":0.0,"Percent99":0.0,"StdDev":0.0,"LatencyCount":{"LessOrEq800":0,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":0,"MeanBytes":0,"MaxBytes":0,"Percent50":0,"Percent75":0,"Percent95":0,"Percent99":0,"StdDev":0.0,"AllBytes":0},"StatusCodes":[]}}],"LatencyCount":{"LessOrEq800":240,"More800Less1200":0,"MoreOrEq1200":0},"LoadSimulationStats":{"SimulationName":"inject_per_sec","Value":12},"StatusCodes":[{"Count@":240,"StatusCode":200,"IsError":false,"Message":"","Count":240}],"CurrentOperation":3,"Duration":"00:01:19.9927325"}],"Duration":"00:01:19.9927325"},{"ScenarioStats":[{"ScenarioName":"compare_keybased_vs_offset","RequestCount":240,"OkCount":240,"FailCount":0,"AllBytes":1945041,"StepStats":[{"StepName":"key_based_pagination","Ok":{"Request":{"Count":120,"RPS":12.0},"Latency":{"MinMs":45.263,"MeanMs":177.12120000000002,"MaxMs":290.091,"Percent50":187.263,"Percent75":208.383,"Percent95":243.839,"Percent99":280.063,"StdDev":50.00870457190428,"LatencyCount":{"LessOrEq800":120,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":49,"MeanBytes":85,"MaxBytes":105,"Percent50":95,"Percent75":98,"Percent95":101,"Percent99":103,"StdDev":18.370447281798373,"AllBytes":10248},"StatusCodes":[{"Count@":120,"StatusCode":200,"IsError":false,"Message":"","Count":120}]},"Fail":{"Request":{"Count":0,"RPS":0.0},"Latency":{"MinMs":0.0,"MeanMs":0.0,"MaxMs":0.0,"Percent50":0.0,"Percent75":0.0,"Percent95":0.0,"Percent99":0.0,"StdDev":0.0,"LatencyCount":{"LessOrEq800":0,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":0,"MeanBytes":0,"MaxBytes":0,"Percent50":0,"Percent75":0,"Percent95":0,"Percent99":0,"StdDev":0.0,"AllBytes":0},"StatusCodes":[]}},{"StepName":"skipNtake_based_pagination","Ok":{"Request":{"Count":120,"RPS":12.0},"Latency":{"MinMs":71.368,"MeanMs":251.46,"MaxMs":420.258,"Percent50":262.911,"Percent75":297.727,"Percent95":358.143,"Percent99":376.063,"StdDev":72.5460375026323,"LatencyCount":{"LessOrEq800":120,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":5018,"MeanBytes":16124,"MaxBytes":22724,"Percent50":17791,"Percent75":19151,"Percent95":20911,"Percent99":22591,"StdDev":4743.27556696495,"AllBytes":1934793},"StatusCodes":[{"Count@":120,"StatusCode":200,"IsError":false,"Message":"","Count":120}]},"Fail":{"Request":{"Count":0,"RPS":0.0},"Latency":{"MinMs":0.0,"MeanMs":0.0,"MaxMs":0.0,"Percent50":0.0,"Percent75":0.0,"Percent95":0.0,"Percent99":0.0,"StdDev":0.0,"LatencyCount":{"LessOrEq800":0,"More800Less1200":0,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":0,"MeanBytes":0,"MaxBytes":0,"Percent50":0,"Percent75":0,"Percent95":0,"Percent99":0,"StdDev":0.0,"AllBytes":0},"StatusCodes":[]}}],"LatencyCount":{"LessOrEq800":240,"More800Less1200":0,"MoreOrEq1200":0},"LoadSimulationStats":{"SimulationName":"inject_per_sec","Value":12},"StatusCodes":[{"Count@":240,"StatusCode":200,"IsError":false,"Message":"","Count":240}],"CurrentOperation":3,"Duration":"00:01:29.9941349"}],"Duration":"00:01:29.9941349"},{"ScenarioStats":[{"ScenarioName":"compare_keybased_vs_offset","RequestCount":499,"OkCount":354,"FailCount":145,"AllBytes":1780491,"StepStats":[{"StepName":"key_based_pagination","Ok":{"Request":{"Count":231,"RPS":23.1},"Latency":{"MinMs":115.767,"MeanMs":674.0707186147187,"MaxMs":1018.642,"Percent50":700.415,"Percent75":906.751,"Percent95":989.695,"Percent99":1011.711,"StdDev":248.77093888157515,"LatencyCount":{"LessOrEq800":143,"More800Less1200":88,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":47,"MeanBytes":80,"MaxBytes":103,"Percent50":85,"Percent75":97,"Percent95":100,"Percent99":101,"StdDev":20.123460321011333,"AllBytes":18686},"StatusCodes":[{"Count@":231,"StatusCode":200,"IsError":false,"Message":"","Count":231}]},"Fail":{"Request":{"Count":53,"RPS":5.3},"Latency":{"MinMs":999.886,"MeanMs":1019.4161509433962,"MaxMs":1037.983,"Percent50":1018.367,"Percent75":1028.607,"Percent95":1035.775,"Percent99":1036.799,"StdDev":10.169510033272925,"LatencyCount":{"LessOrEq800":0,"More800Less1200":53,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":0,"MeanBytes":0,"MaxBytes":0,"Percent50":0,"Percent75":0,"Percent95":0,"Percent99":0,"StdDev":0.0,"AllBytes":0},"StatusCodes":[{"Count@":53,"StatusCode":-100,"IsError":true,"Message":"step timeout","Count":53}]}},{"StepName":"skipNtake_based_pagination","Ok":{"Request":{"Count":123,"RPS":12.3},"Latency":{"MinMs":110.924,"MeanMs":633.8887804878049,"MaxMs":1044.407,"Percent50":694.783,"Percent75":806.911,"Percent95":982.527,"Percent99":1004.031,"StdDev":245.48248377491504,"LatencyCount":{"LessOrEq800":89,"More800Less1200":34,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":4403,"MeanBytes":14324,"MaxBytes":23166,"Percent50":17231,"Percent75":18687,"Percent95":20719,"Percent99":22351,"StdDev":5755.407436374543,"AllBytes":1761805},"StatusCodes":[{"Count@":123,"StatusCode":200,"IsError":false,"Message":"","Count":123}]},"Fail":{"Request":{"Count":92,"RPS":9.2},"Latency":{"MinMs":989.411,"MeanMs":1017.4775652173913,"MaxMs":1081.821,"Percent50":1015.807,"Percent75":1022.975,"Percent95":1050.623,"Percent99":1056.767,"StdDev":15.092132853637144,"LatencyCount":{"LessOrEq800":0,"More800Less1200":92,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":0,"MeanBytes":0,"MaxBytes":0,"Percent50":0,"Percent75":0,"Percent95":0,"Percent99":0,"StdDev":0.0,"AllBytes":0},"StatusCodes":[{"Count@":92,"StatusCode":-100,"IsError":true,"Message":"step timeout","Count":92}]}}],"LatencyCount":{"LessOrEq800":232,"More800Less1200":267,"MoreOrEq1200":0},"LoadSimulationStats":{"SimulationName":"inject_per_sec","Value":32},"StatusCodes":[{"Count@":145,"StatusCode":-100,"IsError":true,"Message":"step timeout","Count":145},{"Count@":354,"StatusCode":200,"IsError":false,"Message":"","Count":354}],"CurrentOperation":3,"Duration":"00:01:39.9947669"}],"Duration":"00:01:39.9947669"},{"ScenarioStats":[{"ScenarioName":"compare_keybased_vs_offset","RequestCount":534,"OkCount":305,"FailCount":229,"AllBytes":1188506,"StepStats":[{"StepName":"key_based_pagination","Ok":{"Request":{"Count":217,"RPS":21.7},"Latency":{"MinMs":278.892,"MeanMs":789.8148571428571,"MaxMs":1022.278,"Percent50":914.943,"Percent75":975.871,"Percent95":1012.223,"Percent99":1019.903,"StdDev":232.75476720878856,"LatencyCount":{"LessOrEq800":77,"More800Less1200":140,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":47,"MeanBytes":77,"MaxBytes":103,"Percent50":83,"Percent75":97,"Percent95":101,"Percent99":101,"StdDev":21.828675408766735,"AllBytes":16872},"StatusCodes":[{"Count@":217,"StatusCode":200,"IsError":false,"Message":"","Count":217}]},"Fail":{"Request":{"Count":100,"RPS":10.0},"Latency":{"MinMs":995.826,"MeanMs":1020.352,"MaxMs":1067.875,"Percent50":1019.391,"Percent75":1027.583,"Percent95":1040.383,"Percent99":1055.743,"StdDev":12.974395955110975,"LatencyCount":{"LessOrEq800":0,"More800Less1200":100,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":0,"MeanBytes":0,"MaxBytes":0,"Percent50":0,"Percent75":0,"Percent95":0,"Percent99":0,"StdDev":0.0,"AllBytes":0},"StatusCodes":[{"Count@":100,"StatusCode":-100,"IsError":true,"Message":"step timeout","Count":100}]}},{"StepName":"skipNtake_based_pagination","Ok":{"Request":{"Count":88,"RPS":8.8},"Latency":{"MinMs":367.422,"MeanMs":810.002909090909,"MaxMs":1060.104,"Percent50":843.263,"Percent75":962.047,"Percent95":1004.031,"Percent99":1022.975,"StdDev":177.22954428929657,"LatencyCount":{"LessOrEq800":33,"More800Less1200":55,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":5532,"MeanBytes":13314,"MaxBytes":20918,"Percent50":16543,"Percent75":18223,"Percent95":19967,"Percent99":20895,"StdDev":5579.0619382700625,"AllBytes":1171634},"StatusCodes":[{"Count@":88,"StatusCode":200,"IsError":false,"Message":"","Count":88}]},"Fail":{"Request":{"Count":129,"RPS":12.9},"Latency":{"MinMs":988.879,"MeanMs":1025.6133953488372,"MaxMs":1078.68,"Percent50":1023.999,"Percent75":1035.263,"Percent95":1054.719,"Percent99":1068.031,"StdDev":16.704815779859654,"LatencyCount":{"LessOrEq800":0,"More800Less1200":129,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":0,"MeanBytes":0,"MaxBytes":0,"Percent50":0,"Percent75":0,"Percent95":0,"Percent99":0,"StdDev":0.0,"AllBytes":0},"StatusCodes":[{"Count@":129,"StatusCode":-100,"IsError":true,"Message":"step timeout","Count":129}]}}],"LatencyCount":{"LessOrEq800":110,"More800Less1200":424,"MoreOrEq1200":0},"LoadSimulationStats":{"SimulationName":"inject_per_sec","Value":32},"StatusCodes":[{"Count@":229,"StatusCode":-100,"IsError":true,"Message":"step timeout","Count":229},{"Count@":305,"StatusCode":200,"IsError":false,"Message":"","Count":305}],"CurrentOperation":3,"Duration":"00:01:50.0010668"}],"Duration":"00:01:50.0010668"},{"ScenarioStats":[{"ScenarioName":"compare_keybased_vs_offset","RequestCount":540,"OkCount":328,"FailCount":212,"AllBytes":1626951,"StepStats":[{"StepName":"key_based_pagination","Ok":{"Request":{"Count":219,"RPS":21.9},"Latency":{"MinMs":204.32,"MeanMs":749.2062100456621,"MaxMs":1030.523,"Percent50":802.303,"Percent75":917.503,"Percent95":994.303,"Percent99":1022.975,"StdDev":216.0015077938489,"LatencyCount":{"LessOrEq800":109,"More800Less1200":110,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":17,"MeanBytes":78,"MaxBytes":116,"Percent50":84,"Percent75":97,"Percent95":101,"Percent99":102,"StdDev":21.64096661330965,"AllBytes":17278},"StatusCodes":[{"Count@":219,"StatusCode":200,"IsError":false,"Message":"","Count":219}]},"Fail":{"Request":{"Count":114,"RPS":11.4},"Latency":{"MinMs":994.113,"MeanMs":1019.7737543859649,"MaxMs":1060.549,"Percent50":1020.415,"Percent75":1025.535,"Percent95":1043.455,"Percent99":1058.815,"StdDev":12.7724951638904,"LatencyCount":{"LessOrEq800":0,"More800Less1200":114,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":0,"MeanBytes":0,"MaxBytes":0,"Percent50":0,"Percent75":0,"Percent95":0,"Percent99":0,"StdDev":0.0,"AllBytes":0},"StatusCodes":[{"Count@":114,"StatusCode":-100,"IsError":true,"Message":"step timeout","Count":114}]}},{"StepName":"skipNtake_based_pagination","Ok":{"Request":{"Count":109,"RPS":10.9},"Latency":{"MinMs":271.323,"MeanMs":813.8580550458715,"MaxMs":1033.027,"Percent50":883.711,"Percent75":974.335,"Percent95":1017.855,"Percent99":1026.047,"StdDev":200.6946589417369,"LatencyCount":{"LessOrEq800":35,"More800Less1200":74,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":4830,"MeanBytes":14768,"MaxBytes":22583,"Percent50":17391,"Percent75":19231,"Percent95":20719,"Percent99":21775,"StdDev":5686.682288074587,"AllBytes":1609673},"StatusCodes":[{"Count@":109,"StatusCode":200,"IsError":false,"Message":"","Count":109}]},"Fail":{"Request":{"Count":98,"RPS":9.8},"Latency":{"MinMs":531.934,"MeanMs":1021.2675918367347,"MaxMs":1090.571,"Percent50":1023.999,"Percent75":1036.799,"Percent95":1057.791,"Percent99":1082.367,"StdDev":52.74768755620743,"LatencyCount":{"LessOrEq800":1,"More800Less1200":97,"MoreOrEq1200":0}},"DataTransfer":{"MinBytes":0,"MeanBytes":0,"MaxBytes":0,"Percent50":0,"Percent75":0,"Percent95":0,"Percent99":0,"StdDev":0.0,"AllBytes":0},"StatusCodes":[{"Count@":97,"StatusCode":-100,"IsError":true,"Message":"step timeout","Count":97},{"Count@":1,"StatusCode":-101,"IsError":true,"Message":"step unhandled exception: One or more errors occurred. (Specified argument was out of the range of valid values. (Parameter 'count'))","Count":1}]}}],"LatencyCount":{"LessOrEq800":145,"More800Less1200":395,"MoreOrEq1200":0},"LoadSimulationStats":{"SimulationName":"inject_per_sec","Value":32},"StatusCodes":[{"Count@":1,"StatusCode":-101,"IsError":true,"Message":"step unhandled exception: One or more errors occurred. (Specified argument was out of the range of valid values. (Parameter 'count'))","Count":1},{"Count@":211,"StatusCode":-100,"IsError":true,"Message":"step timeout","Count":211},{"Count@":328,"StatusCode":200,"IsError":false,"Message":"","Count":328}],"CurrentOperation":3,"Duration":"00:01:59.9962877"}],"Duration":"00:01:59.9962877"}],"Hints":[]};
+        initApp('#app', viewModel);
+    </script>
+
+</body>
+</html>
