@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.OData.Extensions;
 using Microsoft.AspNetCore.OData.Query;
-using Microsoft.OData.UriParser;
 
 namespace ODataAutomapperApi.Attributes;
 

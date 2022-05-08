@@ -16,7 +16,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(config =>
 {
-    config.CreateMap<WeatherForecast, WeatherForecastDbModel>().ReverseMap();
+    config.CreateMap<WeatherForecast, WeatherForecastDbModel>()
+          .ForMember(db => db.SummaryNormalized, o => o.MapFrom(s => s.Summary == null ? "" : s.Summary.ToUpper().Trim()))
+          .ReverseMap();
 });
 
 builder.Services.AddDbContext<WeatherForcastContext>(options =>
